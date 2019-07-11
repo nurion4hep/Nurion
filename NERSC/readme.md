@@ -1,6 +1,6 @@
 ## NERSC HEP-CNN 코드입니다.  
-Code_Ref: https://drive.google.com/drive/folders/1EZ8l9cevPTEc9-tHRT0NH-sfbgvqSCXm  
-Data_Ref: https://docs.nersc.gov/analytics/machinelearning/science-use-cases/hep-cnn  
+#### Code_Ref: https://drive.google.com/drive/folders/1EZ8l9cevPTEc9-tHRT0NH-sfbgvqSCXm  
+#### Data_Ref: https://docs.nersc.gov/analytics/machinelearning/science-use-cases/hep-cnn  
 ---
 ### 1. 데이터 샘플 다운로드  
 ```bash
