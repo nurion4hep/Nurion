@@ -85,29 +85,30 @@ if modelName == '3ch-CNN':
   	print(weights_val.shape)
 
 ## -- Save the preprocessed data
-
 with h5py.File("Preprocessed_Train.h5","w") as f:
-	dset = f.create_dataset("images", data=images)
-	dset = f.create_dataset("labels",data=labels)
-	dset = f.create_dataset("weights",data=weights)
+	g=f.create_group("all_events")
+	g.create_dataset("images", data=images,chunks=True,compression='gzip', compression_opts=9) ## Minimize output file size
+	g.create_dataset("labels",data=labels,chunks=True)
+	g.create_dataset("weights",data=weights,chunks=True)
 
 with h5py.File("Preprocessed_Val.h5","w") as f:
-	dset = f.create_dataset("images_val", data=images_val)
-	dset = f.create_dataset("labels_val",data=labels_val)
-	dset = f.create_dataset("weights_val",data=weights_val)
-
+	g=f.create_group("all_events")
+	g.create_dataset("images_val", data=images_val,chunks=True,compression='gzip', compression_opts=9)
+	g.create_dataset("labels_val",data=labels_val,chunks=True)
+	g.create_dataset("weights_val",data=weights_val,chunks=True)
 ## -- Check
 
 print("### Check the saved data ###")
 hh = h5py.File("Preprocessed_Train.h5")
 print("## Preprocessed_Train.h5 open ##")
 print(list(hh.keys()))
-print(hh["images"].shape)
+print(hh["all_events"]["images"].shape)
+hh.close()
 
 hh = h5py.File("Preprocessed_Val.h5")
 print("## Preprocessed_Val.h5 open ##")
 print(list(hh.keys()))
-print(hh["images_val"].shape)
+print(hh["all_events"]["images_val"].shape)
 
 
 
