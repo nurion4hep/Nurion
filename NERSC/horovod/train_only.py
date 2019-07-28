@@ -11,7 +11,7 @@ from tensorflow.keras import layers
 import sys
 sys.modules['keras'] = keras
 import horovod.tensorflow.keras as hvd
-
+#from mpi4py import MPI
 
 
 
@@ -135,13 +135,13 @@ if __name__ == '__main__':
 		callbacks=[
 		hvd.callbacks.BroadcastGlobalVariablesCallback(0),
 		tf.keras.callbacks.EarlyStopping(verbose=True, patience=20, monitor='val_loss'),
-		tf.keras.callbacks.ModelCheckpoint(model_weights,
-		monitor='val_loss', verbose=True, save_best_only=True)  
 		]
 		
 		if hvd.rank()==0:
-			#callbacks.append(tf.keras.callbacks.ModelCheckpoint('./checkpoint-{epoch}.h5'))
-			callbacks.append(tf.keras.callbacks.ModelCheckpoint('./checkpoint-{epoch:02d}-{val_loss:.2f}.h5'))
+			callbacks.append(tf.keras.callbacks.ModelCheckpoint('./checkpoint-{epoch}.h5'))
+			callbacks.append(tf.keras.callbacks.ModelCheckpoint(model_weights,
+        	monitor='val_loss', verbose=True, save_best_only=True)
+        	)
 		
 	
 		try:
