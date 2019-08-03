@@ -58,7 +58,7 @@ arr=np.arange(Nall)
 arr=arr.reshape(-1,1)
 
 
-isSig = np.ones([N_siganl,1])
+isSig = np.ones([N_signal,1])
 isBKG = np.zeros([N_BKG,1])
 
 
@@ -76,18 +76,46 @@ Y = np.concatenate([isSig,isBKG],axis=0)
 shuffled_indices = np.random.permutation(Nall)
 val_size		= int(Nall*0.3)
 val_indices		= shuffled_indices[:val_size]
-train_indices	= shuffled_indices[val_szie:]
+train_indices	= shuffled_indices[val_size:]
+
+val_hist		= hist[val_indices]
+train_hist		= hist[train_indices]
+val_histEM		= histEM[val_indices]
+train_histEM	= histEM[train_indices]
+val_histtrack		= histtrack[val_indices]
+train_histtrack		= histtrack[train_indices]
+val_passSR			= passSR[val_indices]
+train_passSR		= passSR[train_indices]
+val_passSR4J		= passSR4J[val_indices]
+train_passSR4J		= passSR4J[train_indices]
+val_weights		=  weights[val_indices]
+train_weights	=  weights[train_indices]
+val_Y	=	Y[val_indices]
+train_Y	=	Y[train_indices]
 
 
-
-
-
-
-
-print(df)
-print(df.shape)
-
-
+print("### Train and validation results ###")
+print("### hist ###")
+print(val_hist.shape)
+print(train_hist.shape)
+print("### histEM ###")
+print(val_histEM.shape)
+print(train_histEM.shape)
+print("### histtrack ###")
+print(val_histtrack.shape) 
+print(train_histtrack.shape)
+print("### passSR ###")
+print(val_passSR.shape)
+print(train_passSR.shape)
+print("### passSR4J ###")
+print(val_passSR4J.shape)
+print(train_passSR4J.shape)
+print("### weight ###")
+print(val_weights.shape)
+print(train_weights.shape)
+print("### Label ###")
+print(val_Y.shape)
+print(train_Y.shape)
 
 #print(hist.shape)
 #print(histEM.shape)
