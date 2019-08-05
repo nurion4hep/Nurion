@@ -6,6 +6,7 @@ import pandas as pd
 path="/hcp/data/data02/jwkim2/WORK/Nurion/preprocess/"
 
 ## Read data
+print("##### Read HDF5...")
 Sig_data=h5py.File(path+"RPV_jhg_v0.h5")
 BKG_data=h5py.File(path+'QCD.h5')
 
@@ -13,9 +14,11 @@ BKG_data=h5py.File(path+'QCD.h5')
 N_signal = 10000
 N_BKG=10000
 
-
+print(" ")
+print("##### branches: ")
 print(list(Sig_data['all_events'].keys()))
-print
+print(" ")
+print("##### Read brancehs...")
 #['hist', 'histEM', 'histtrack', 'passSR', 'passSR4J', 'passSR5J', 'weight']
 
 
@@ -35,13 +38,16 @@ bkg_passSR4J		= BKG_data['all_events']['passSR4J'][:N_BKG]
 bkg_weight			= BKG_data['all_events']['weight'][:N_BKG]
 
 
-print("###### Weights #####")
+print("##### Weights = xsec*lumi(36000 pb^-1) #####")
+print("### signal ###")
 print(sig_weight)
-print(" ")
+print("### background ###")
 print(bkg_weight)
 
 
 # show results
+print(" ")
+print("##### Read data results(shape) ######")
 print("sig hist: ",sig_hist.shape)
 print("bkg hist: ",bkg_hist.shape)
 print("----------------------------")
@@ -59,6 +65,7 @@ print("bkg passSR4J: ",bkg_passSR4J.shape)
 print("----------------------------")
 print("sig weight: ",sig_weight.shape)
 print("bkg weight: ",bkg_weight.shape)
+
 
 # Number of all data
 Nall = N_signal + N_BKG
@@ -102,7 +109,9 @@ val_Y	=	Y[val_indices]
 train_Y	=	Y[train_indices]
 
 
-print("### Train and validation split results ###")
+print(" ")
+print(" ")
+print("###### Train <---> Validation split results ######")
 print("### hist ###")
 print(val_hist.shape)
 print(train_hist.shape)
@@ -130,7 +139,7 @@ print(train_Y.shape)
 
 
 
-print("### Converting HDF5 files...")
+print("##### Converting Numpy to HDF5 files...")
 
 with h5py.File("train.h5","w") as f:
 	g=f.create_group("all_events")
@@ -154,6 +163,6 @@ with h5py.File("val.h5","w") as f:
 
 
 
-print("### Successfully saved!")
+print("##### Successfully saved!")
 
 
