@@ -34,6 +34,13 @@ bkg_passSR			= BKG_data['all_events']['passSR'][:N_BKG]
 bkg_passSR4J		= BKG_data['all_events']['passSR4J'][:N_BKG]
 bkg_weight			= BKG_data['all_events']['weight'][:N_BKG]
 
+
+print("###### Weights #####")
+print(sig_weight)
+print(" ")
+print(bkg_weight)
+
+
 # show results
 print("sig hist: ",sig_hist.shape)
 print("bkg hist: ",bkg_hist.shape)
