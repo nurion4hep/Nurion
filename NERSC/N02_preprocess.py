@@ -109,7 +109,7 @@ hh = h5py.File("Preprocessed_Val.h5")
 print("## Preprocessed_Val.h5 open ##")
 print(list(hh.keys()))
 print(hh["all_events"]["images_val"].shape)
-
+hh.close()
 
 
 

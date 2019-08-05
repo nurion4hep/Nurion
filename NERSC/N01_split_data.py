@@ -134,6 +134,7 @@ with h5py.File("train.h5","w") as f:
 	g.create_dataset("passSR",	  data=train_passSR,chunks=True,compression='gzip', compression_opts=9) 
 	g.create_dataset("passSR4J",  data=train_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
 	g.create_dataset("weights",   data=train_weights,chunks=True)
+	g.create_dataset("y",   data=train_Y,chunks=True)
 
 with h5py.File("val.h5","w") as f:
 	g=f.create_group("all_events")
@@ -143,9 +144,10 @@ with h5py.File("val.h5","w") as f:
 	g.create_dataset("passSR",	  data=val_passSR,chunks=True,compression='gzip', compression_opts=9) 
 	g.create_dataset("passSR4J",  data=val_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
 	g.create_dataset("weights",   data=val_weights,chunks=True)
+	g.create_dataset("y",   data=val_Y,chunks=True)
 
 
 
-print("### Successfully svaed!")
+print("### Successfully saved!")
 
 
