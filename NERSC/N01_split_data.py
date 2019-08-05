@@ -3,11 +3,10 @@ import numpy as np
 import pandas as pd
 
 ## Set Path data path
-path_="/xrootd/store/user/hnam/sample4Nurion/RPV/"
 path="/hcp/data/data02/jwkim2/WORK/Nurion/preprocess/"
 
 ## Read data
-Sig_data=h5py.File(path_+"data.h5")
+Sig_data=h5py.File(path+"RPV_jhg_v0.h5")
 BKG_data=h5py.File(path+'QCD.h5')
 
 ## Set # of  data
