@@ -22,5 +22,5 @@ ROC.py 실행: 학습 코드의 output과 val.h5를 가지고, ROC curve를 그�
 ### 3. Horovod를 이용한 분산처리  
 1) 샘플 다운로드 후 run.sh를 이용해서 preprocess.py코드 돌리기 (전처리)  
 2) horovod 디렉토리로 이동, run.sh를 이용해서 train_only.py코드 돌리기 (학습)  
-3) 1-3 의 코드로 ROC curve 그리기
+3) 2-3) 의 코드로 ROC curve 그리기
 
