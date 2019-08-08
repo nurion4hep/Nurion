@@ -9,17 +9,10 @@ StartTime=$(date +%s)
 
 
 ### ---preprocess.py
-#python preprocess.py --nb-train-events 100000 --nb-test-events 10000 ./train.h5 ./val.h5 3ch-CNN
-
-
-### ---preprocess_TFD.py
-#python preprocess_TFD.py --nb-train-events 100000 --nb-test-events 10000 ./train.h5 ./val.h5 3ch-CNN
-
-
+#python N02_preprocess.py --nb-train-events 100000 --nb-test-events 10000 ./train.h5 ./val.h5 3ch-CNN
 
 ### --train_only.py
 python train_only.py --nb-epochs 10 --nb-train-events 20000 --nb-test-events 1000 --batch-size 512 ./Preprocessed_Train.h5 ./Preprocessed_Val.h5 3ch-CNN
-
 
 ### --train_only_v2.py HDF5Matrix test
 #python train_only_v2.py --nb-epochs 10 --nb-train-events 20000 --nb-test-events 1000 --batch-size 512 ./Preprocessed_Train.h5 ./Preprocessed_Val.h5 3ch-CNN
