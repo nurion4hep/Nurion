@@ -58,6 +58,8 @@ if __name__ == '__main__':
 	config = tf.ConfigProto()
 	config.gpu_options.allow_growth = True
 	config.gpu_options.visible_device_list = str(hvd.local_rank())
+	config.intra_op_parallelism_threads = 4
+	config.inter_op_parallelism_threads = 1
 	keras.backend.set_session(tf.Session(config=config))
 
 	print("horovod: hvdsize: ",hvd.size())
