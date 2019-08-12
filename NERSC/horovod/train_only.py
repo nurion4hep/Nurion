@@ -58,7 +58,7 @@ if __name__ == '__main__':
 	config = tf.ConfigProto()
 	config.gpu_options.allow_growth = True
 	config.gpu_options.visible_device_list = str(hvd.local_rank())
-	config.intra_op_parallelism_threads = 4
+	config.intra_op_parallelism_threads = 64
 	config.inter_op_parallelism_threads = 1
 	keras.backend.set_session(tf.Session(config=config))
 
@@ -127,7 +127,8 @@ if __name__ == '__main__':
 		nb_epochs = int(math.ceil(args.nb_epochs / hvd.size()))
 		opt = tf.keras.optimizers.Adam(0.001 * hvd.size())
 		opt = hvd.DistributedOptimizer(opt)
-		
+		batch_size=int(args.batch_size /64)
+	
 		model.compile(
 			optimizer=opt,
 			loss='binary_crossentropy',
@@ -153,7 +154,7 @@ if __name__ == '__main__':
 			print('No pre-trained weights found')
 		try:
 			model.fit(images, labels,
-					  batch_size=args.batch_size,
+					  batch_size=batch_size,
 					  sample_weight=weights,
 					  epochs=nb_epochs,
 					  verbose=1,
