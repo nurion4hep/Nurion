@@ -1,25 +1,22 @@
+#!/bin/bash
+#PBS -V
+#PBS -N tf_mnist
+#PBS -q normal
+#PBS -W sandbox=PRIVATE
+#PBS -A etc
+#PBS -l select=16:ncpus=68:mpiprocs=1:ompthreads=64
+#PBS -l walltime=20:00:00
 
+export HDF5_USE_FILE_LOCKING='FALSE'
+module load gcc/7.2.0 openmpi/3.1.0 craype-mic-knl tensorflow/1.12.0 hdf5-parallel/1.10.2
 
-StartTime=$(date +%s)
+cd $PBS_O_WORKDIR
 
-### --train.py
-#python train.py --nb-epochs 20 --nb-train-events 412416 --batch-size 512 ./train.h5 ./val.h5 3ch-CNN  # Full set
-#python train.py --nb-epochs 10 --nb-train-events 100000 --nb-test-events 10000 --batch-size 512 ./train.h5 ./val.h5 3ch-CNN
-#python train.py --nb-epochs 10 --nb-train-events 20000 --nb-test-events 1000 --batch-size 512 ./train.h5 ./val.h5 3ch-CNN
+beginTime=$(date +%s%N)
+#mpirun python train_only.py --nb-epochs 20 --nb-train-events 412416 --batch-size 512 data/Preprocessed_Train.h5 data/Preprocessed_Val.h5 3ch-CNN 
+mpirun -np 16 python train_only.py --nb-epochs 64 --nb-train-events 412416  --batch-size 512 data/Preprocessed_Train.h5 data/Preprocessed_Val.h5 3ch-CNN 
 
-
-### ---preprocess.py
-#python N02_preprocess.py --nb-train-events 100000 --nb-test-events 10000 ./train.h5 ./val.h5 3ch-CNN
-
-### --train_only.py
-python train_only.py --nb-epochs 10 --nb-train-events 20000 --nb-test-events 1000 --batch-size 512 ./Preprocessed_Train.h5 ./Preprocessed_Val.h5 3ch-CNN
-
-### --train_only_v2.py HDF5Matrix test
-#python train_only_v2.py --nb-epochs 10 --nb-train-events 20000 --nb-test-events 1000 --batch-size 512 ./Preprocessed_Train.h5 ./Preprocessed_Val.h5 3ch-CNN
-
-python test.py
-
-EndTime=$(date +%s)
-
-echo "It takes $(($EndTime - $StartTime)) seconds to complete this task."
-
+endTime=$(date +%s%N)
+elapsed=`echo "($endTime - $beginTime) / 1000000" | bc`
+elapsedSec=`echo "scale=6;$elapsed / 1000" | bc | awk '{printf "%.6f", $1}'`
+echo TOTAL: $elapsedSec sec
