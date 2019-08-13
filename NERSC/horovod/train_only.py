@@ -127,7 +127,10 @@ if __name__ == '__main__':
 		nb_epochs = int(math.ceil(args.nb_epochs / hvd.size()))
 		opt = tf.keras.optimizers.Adam(0.001 * hvd.size())
 		opt = hvd.DistributedOptimizer(opt)
-		batch_size=int(args.batch_size /64)
+		
+                
+                # Thread: batch size scale
+                batch_size=int(args.batch_size /64)
 	
 		model.compile(
 			optimizer=opt,
