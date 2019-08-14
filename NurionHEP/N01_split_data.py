@@ -2,23 +2,20 @@ import h5py
 import numpy as np
 import pandas as pd
 
-path="/xrootd/store/user/hnam/sample4Nurion/QCDBkg_HTbin_0808/"
-path_="/xrootd/store/user/hnam/sample4Nurion/RPV/"
+path="/xrootd/store/user/hnam/sample4Nurion/Sample_0814/raw/"
 
-data_700HT  = "700to1000.h5"
-data_1000HT = "1000to1500.h5"
-data_1500HT = "1500to2000.h5"
-data_2000HT = "2000toInf.h5"
+data_700HT  = "QCD700to1000.h5"
+data_1000HT = "QCD1000to1500.h5"
+data_1500HT = "QCD1500to2000.h5"
+data_2000HT = "QCD2000toInf.h5"
 
 
 BKG700HT_data = h5py.File(path+data_700HT)
 BKG1000HT_data = h5py.File(path+data_1000HT)
 BKG1500HT_data = h5py.File(path+data_1500HT)
 BKG2000HT_data = h5py.File(path+data_2000HT)
+Sig_data=h5py.File(path+"RPV1400.h5")
 
-
-
-Sig_data=h5py.File(path_+"data.h5")
 
 
 print(list(Sig_data['all_events'].keys()))
@@ -199,7 +196,8 @@ print(val_Y.shape)
 #	g.create_dataset("passSR",	  data=train_passSR,chunks=True,compression='gzip', compression_opts=9) 
 #	g.create_dataset("passSR4J",  data=train_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
 #	g.create_dataset("passSR45",  data=train_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("weights",   data=train_weights,chunks=True)
+#	g.create_dataset("weight",   data=train_weights,chunks=True)
+#	g.create_dataset("y",   data=train_Y,chunks=True)
 #
 #with h5py.File("val.h5","w") as f:
 #	g=f.create_group("all_events")
@@ -209,7 +207,8 @@ print(val_Y.shape)
 #	g.create_dataset("passSR",	  data=val_passSR,chunks=True,compression='gzip', compression_opts=9) 
 #	g.create_dataset("passSR4J",  data=val_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
 #	g.create_dataset("passSR5J",  data=val_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("weights",   data=val_weights,chunks=True)
+#	g.create_dataset("weight",   data=val_weights,chunks=True)
+#	g.create_dataset("y",   data=val_Y,chunks=True)
 #
 #
 #
