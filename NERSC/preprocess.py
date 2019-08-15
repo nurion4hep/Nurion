@@ -70,19 +70,19 @@ if modelName == '3ch-CNN':
 	print("### 3ch merging")
 	
 	images = add_channels(images, data, nb_train_events)
-  	images_val = add_channels(images_val, val, nb_test_events)
-  	
+	images_val = add_channels(images_val, val, nb_test_events)
+	
 	print("### images ###")
-  	print(images.shape)
-  	print(images_val.shape)
+	print(images.shape)
+	print(images_val.shape)
 
-  	print("### Labels ###")
-  	print(labels.shape)
-  	print(labels_val.shape)
+	print("### Labels ###")
+	print(labels.shape)
+	print(labels_val.shape)
 
-  	print("### Weight ###")
-  	print(weights.shape)
-  	print(weights_val.shape)
+	print("### Weight ###")
+	print(weights.shape)
+	print(weights_val.shape)
 
 ## -- Save the preprocessed data
 with h5py.File("Preprocessed_Train.h5","w") as f:
@@ -109,9 +109,4 @@ hh = h5py.File("Preprocessed_Val.h5")
 print("## Preprocessed_Val.h5 open ##")
 print(list(hh.keys()))
 print(hh["all_events"]["images_val"].shape)
-
-
-
-
-
-
+hh.close()
