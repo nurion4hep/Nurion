@@ -11,8 +11,7 @@ from tensorflow.keras import layers
 import sys
 sys.modules['keras'] = keras
 import horovod.tensorflow.keras as hvd
-#from mpi4py import MPI
-
+from keras.preprocessing.image import ImageDataGenerator
 
 
 def get_parser():
@@ -124,27 +123,41 @@ if __name__ == '__main__':
 		
 
 		# Horovod: Set epoch and distributed optimizer
-		nb_epochs = int(math.ceil(args.nb_epochs / hvd.size()))
+		nb_epochs = args.nb_epochs
 		opt = tf.keras.optimizers.Adam(0.001 * hvd.size())
 		opt = hvd.DistributedOptimizer(opt)
-                batch_size=args.batch_size
+		batch_size=args.batch_size
+		## Set global steps
+		train_global_step = len(images) // batch_size
+		val_global_step = len(images_val) // batch_size
 	
+
+
+
 		model.compile(
 			optimizer=opt,
 			loss='binary_crossentropy',
 			metrics=['accuracy']
 		)
 
+
+		#from keras.callbacks import CSVLogger
+		#tb_hist = keras.callbacks.TensorBoard(log_dir='/scratch/x1797a07/Nurion/NERSC/horovod/graph', histogram_freq=0, write_graph=True, write_images=True)
+		#csv_logger = CSVLogger('training.log')
+		#tb_hist=keras.callbacks.LambdaCallback(on_epoch_begin=None, on_epoch_end=None, on_batch_begin=None, on_batch_end=None, on_train_begin=None, on_train_end=None)	
+	
+
 		callbacks=[
 		hvd.callbacks.BroadcastGlobalVariablesCallback(0),
 		tf.keras.callbacks.EarlyStopping(verbose=True, patience=20, monitor='val_loss'),
+		#csv_logger,
 		]
 		
 		if hvd.rank()==0:
 			callbacks.append(tf.keras.callbacks.ModelCheckpoint('./checkpoint-{epoch}.h5'))
-			callbacks.append(tf.keras.callbacks.ModelCheckpoint(model_weights,
-        	monitor='val_loss', verbose=True, save_best_only=True)
-        	)
+			callbacks.append(tf.keras.callbacks.ModelCheckpoint(model_weights,monitor='val_loss', verbose=True, save_best_only=True))
+			#callbacks.append(tb_hist)
+		
 		
 	
 		try:
@@ -152,14 +165,20 @@ if __name__ == '__main__':
 			print('Weights loaded from ' + model_weights)
 		except IOError:
 			print('No pre-trained weights found')
+		
+
+		## Set generator
+		train_gen = ImageDataGenerator()
+		val_gen   = ImageDataGenerator()
+
 		try:
-			model.fit(images, labels,
-					  batch_size=batch_size,
-					  sample_weight=weights,
-					  epochs=nb_epochs,
-					  verbose=1,
-					  callbacks = callbacks,
-					  validation_data=(images_val, labels_val, weights_val)
+			model.fit_generator(train_gen.flow(images, labels,sample_weight=weights,batch_size=batch_size),
+				steps_per_epoch = train_global_step // hvd.size(),
+				epochs=nb_epochs,
+				verbose=1,
+				callbacks = callbacks,
+				validation_data=val_gen.flow(images_val, labels_val, sample_weight=weights_val, batch_size=batch_size),
+				validation_steps=3 * val_global_step // hvd.size()
 			)
 		except KeyboardInterrupt:
 			print('Training finished early')
