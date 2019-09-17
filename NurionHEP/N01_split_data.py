@@ -5,8 +5,14 @@ import pandas as pd
 #for 2016 data
 #path="/xrootd/store/user/hnam/sample4Nurion/Sample_0814/raw/"
 
-#for 2018 data
-path="/xrootd/store/user/hnam/sample4Nurion/2018DAS/Delphes/h5/"
+#for more 2018 data
+#path="/xrootd/store/user/hnam/sample4Nurion/2018DAS/Delphes/h5/"
+
+# original path
+path_="/xrootd_user/hknam/xrootd/sample4Nurion/2018DAS/Delphes/h5/"
+
+# more evts
+path="/xrootd_user/hknam/xrootd/sample4Nurion/2018DAS/Delphes/h5_v2/"
 
 
 data_700HT  = "QCD700to1000.h5"
@@ -14,14 +20,13 @@ data_1000HT = "QCD1000to1500.h5"
 data_1500HT = "QCD1500to2000.h5"
 data_2000HT = "QCD2000toInf.h5"
 
-BKG700HT_data = h5py.File(path+data_700HT)
+BKG700HT_data = h5py.File(path_+data_700HT)
 BKG1000HT_data = h5py.File(path+data_1000HT)
 BKG1500HT_data = h5py.File(path+data_1500HT)
 BKG2000HT_data = h5py.File(path+data_2000HT)
-Sig_data=h5py.File(path+"RPV1400.h5")
+Sig_data=h5py.File(path_+"RPV1400.h5")
 
 
-#N_sig=236621
 N_sig=-1
 
 
@@ -91,7 +96,10 @@ print(" ")
 print(" ### Num Summary ### ")
 print("Signal: ", N_signal)
 print("BKG: ", N_bkg)
- 
+
+''' 
+
+
 
 print(" ")
 print("### Branch summary ###")
@@ -221,4 +229,5 @@ with h5py.File("val.h5","w") as f:
 
 print("### Successfully saved!")
 
+'''
 
