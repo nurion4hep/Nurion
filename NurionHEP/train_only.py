@@ -11,13 +11,6 @@ import numpy as np
 from IPython.display import display
 
 
-
-
-
-
-
-
-
 def get_parser():
 	parser = argparse.ArgumentParser(
 		description='Run SUSY RPV training',
