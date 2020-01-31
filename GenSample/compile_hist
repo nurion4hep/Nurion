@@ -1,0 +1,14 @@
+####  Compiling Delphes ####
+##  --Please modify the path 
+
+### Specifying location of header file
+export PATH=/hcp/data/data02/jwkim2/WORK/Delphes-3.4.1/classes:$PATH
+
+### Specifying location of lib.so files
+export LD_LIBRARY_PATH=/hcp/data/data02/jwkim2/WORK/Delphes-3.4.1:$LD_LIBRARY_PATH
+
+### --Compile it!
+## -I(location of header) -L(location of lib.so) 
+g++ `root-config --cflags` `root-config --libs` $1.C -I/hcp/data/data02/jwkim2/WORK/Delphes-3.4.1/classes -L/hcp/data/data02/jwkim2/WORK/Delphes-3.4.1 -lDelphes -o $1.exe
+
+
