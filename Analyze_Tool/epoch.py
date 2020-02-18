@@ -3,11 +3,21 @@ matplotlib.use('Agg')
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import argparse
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('path', type=str,
+            help="python epoch.py path_of_history.csv")
+
+args = parser.parse_args()
+
+
+
 
 # Path
-dir_   ='perf_nurion_KNL_torch/KMPBLOCKTIME_200__SELECT_256__MPIPROC_256__THREADS_8__BATCH_128/history_0.csv'
-#dir_   ='perf_nurion_KNL_torch/KMPBLOCKTIME_200__SELECT_128__MPIPROC_128__THREADS_8__BATCH_256/history_0.csv'
-#dir_   ='perf_nurion_KNL_torch/KMPBLOCKTIME_200__SELECT_64__MPIPROC_64__THREADS_8__BATCH_512/history_0.csv'
+dir_   = args.path
 
 # csv to dataframe
 df   = pd.read_csv(dir_)
