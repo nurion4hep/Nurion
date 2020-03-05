@@ -142,8 +142,19 @@ def sum_fatjet_mass(fatjet_ms, selected_fatjets=None):
     #return np.sum(masses[:4])
     return np.sum(masses)
 
-def pass_srj(num_jet, btag, summed_mass, HT):
-#def pass_srj(num_jet, summed_mass):
+def numbjet(btag):
+    """
+    Calculates the summed fat jet mass.
+
+    Inputs
+      btag : b-jet tagging
+
+    Returns a float
+    """
+    return np.sum(btag)
+
+#def pass_srj(num_jet, btag, summed_mass, HT):
+def pass_srj(num_jet, num_bjet, summed_mass, HT):
     """
     Applies the jet signal region selection to one event.
     Inputs
@@ -153,7 +164,7 @@ def pass_srj(num_jet, btag, summed_mass, HT):
       HT : scalar summed all of parton level particles
     Returns a bool
     """
-    num_bjet = np.sum(btag)
+    #num_bjet = np.sum(btag)
     #return all([num_jet >= cuts.num_jet_min,
     #            summed_mass > cuts.sr_mass_min])
     return all([num_jet >= cuts.num_jet_min,
