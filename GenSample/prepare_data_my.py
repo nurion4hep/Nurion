@@ -15,7 +15,7 @@ import root_numpy as rnp
 
 from physics_selections_my import (filter_objects, filter_events, select_HT,
                                    select_fatjets, select_jets, is_baseline_event,
-                                   sum_fatjet_mass, pass_srj,
+                                   sum_fatjet_mass, numbjet, pass_srj,
                                    is_signal_region_event)
 from weights import (get_xaod_rpv_params, get_xaod_bkg_xsec, get_xaod_sumw,
                      get_delphes_xsec, get_delphes_sumw)
@@ -104,17 +104,31 @@ def process_events(tree):
 
     # Calculate quantities needed for SR selection
     if num_baseline > 0:
-        numJet = np.vectorize(lambda x: x.size)(JetPt)
-        #numbJet = np.sum(JetBtag)
-        sumFatJetM = np.vectorize(sum_fatjet_mass)(fatJetM)
+		numJet = np.vectorize(lambda x: x.size)(JetPt)
+		numbJet = np.vectorize(numbjet)(JetBtag)
+		sumFatJetM = np.vectorize(sum_fatjet_mass)(fatJetM)
+		
+		
+		# Signal-region event selection
+		#passSRJ = np.vectorize(pass_srj)(numJet, JetBtag, sumFatJetM, HT)
+		passSRJ = np.vectorize(pass_srj)(numJet, numbJet, sumFatJetM, HT)
+		passSR = np.logical_or(passSRJ, 1)
+		
+		## -- added by jiwoong	
+		numJet = np.expand_dims(numJet,axis=1)	
+		numbJet = np.expand_dims(numbJet,axis=1)		
+		sumFatJetM = np.expand_dims(sumFatJetM,axis=1)		
 
-        # Signal-region event selection
-        passSRJ = np.vectorize(pass_srj)(numJet, JetBtag, sumFatJetM, HT)
-        passSR = np.logical_or(passSRJ, 1)
+
+
     else:
-        #numFatJet = sumFatJetM = fatJetDEta12 = np.zeros(0)
-        numJet = sumFatJetM = np.zeros(0)
-        passSRJ = passSR = np.zeros(0, dtype=np.bool)
+		#numFatJet = sumFatJetM = fatJetDEta12 = np.zeros(0)
+		numJet = numbJet = sumFatJetM = np.zeros(0)
+		passSRJ = passSR = np.zeros(0, dtype=np.bool)
+		
+		## -- added by jiwoong	
+		numJet = np.expand_dims(numJet,axis=1)	
+	
 
     #print('SRJ check : ', passSRJ)
     #print('bjet check : ', numbJet)
@@ -122,7 +136,7 @@ def process_events(tree):
     # Return results in a dict of arrays
     return dict(tree=tree[skimIdx], JetPt=JetPt, JetEta=JetEta, JetPhi=JetPhi,
                 JetM=JetM, JetBtag=JetBtag, fatJetPt=fatJetPt, fatJetM=fatJetM,
-                numJet=numJet, sumFatJetM=sumFatJetM, passSRJ=passSRJ, passSR=passSR, scalarHT=HT)
+                numJet=numJet, numbJet=numbJet, sumFatJetM=sumFatJetM, passSRJ=passSRJ, passSR=passSR, scalarHT=HT)
 
 def filter_delphes_to_numpy(files, max_events=None):
     """Processes some files by converting to numpy and applying filtering"""
@@ -280,7 +294,10 @@ def get_event_weights(xsec, mcw, sumw, lumi=36000):
         mcw = np.vectorize(lambda g: g[0])(mcw)
     #return xsec * mcw * lumi / sumw #HK : sumw should be changed to total number of generated event
     #sumw = 330599 # for SUSY RPV 1400 GeV
-    sumw = 1016136
+    #sumw = 26688794 # for QCD 700 to 1000 GeV
+    #sumw = 1016136 # for QCD 1000 to 1500 GeV
+    #sumw = 425202 # for QCD 1500 to 2000 GeV
+    #sumw = 340101 # for QCD 2000 to Inf GeV
     return xsec * mcw * lumi / sumw
 
 def write_hdf5(filename, outputs):
@@ -297,11 +314,12 @@ def write_hdf5(filename, outputs):
         # Create one big h5f group
         g = hf.create_group('all_events')
         for key, data in outputs.iteritems():
-            #if key in ["hist", "histEM", "histtrack", "passSR4J", "passSR5J", "passSR", "weight"]:
-            #if key in ["hist", "histEM", "histtrack", "passSR", "weight"]:
-            if key in ["hist", "histEM", "histtrack", "passSRJ", "weight"]:
-            #if key in ["hist", "histEM", "histtrack", "passSRJ", "passSR", "numJet", "numbJet", "sumFatJetM", "scalarHT", "weight"]:
-                g.create_dataset(key, data=data)
+
+			#if key in ["hist", "histEM", "histtrack", "passSR4J", "passSR5J", "passSR", "weight"]:
+			#if key in ["hist", "histEM", "histtrack", "passSR", "weight"]:
+			if key in ["hist", "histEM", "histtrack", "passSRJ", "weight"]:
+			#if key in ["hist", "histEM", "histtrack", "passSRJ", "passSR", "numJet", "numbJet", "sumFatJetM", "scalarHT", "weight"]:
+				g.create_dataset(key, data=data)
         # Loop over events to write
         num_entries = outputs.values()[0].shape[0]
         for i in xrange(num_entries):
@@ -379,7 +397,7 @@ def main():
 
     # Addition optional outputs
     if args.write_feat:
-        output_keys += ['numJet', 'sumFatJetM', 'scalarHT']
+        output_keys += ['numJet', 'numbJet', 'sumFatJetM', 'scalarHT']
     if args.write_clus:
         for key in ['clusEta', 'clusPhi', 'clusE', 'clusEM']:
             try:
