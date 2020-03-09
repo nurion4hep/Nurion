@@ -45,6 +45,6 @@ OUTDIR=perf_nurion_KNL_torch/KMPBLOCKTIME_${KMP_BLOCKTIME}__SELECT_${SELECT}__MP
 
 python train_torch.py -o $OUTDIR \
            --epoch 1 --batch $BATCH \
-           -t  ../data/Preprocessed_Val.h5 -v ../data/Preprocessed_Test.h5 \
+           -t  ../data/Train_dir -v ../data/Val_dir \
 
 
