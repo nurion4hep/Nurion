@@ -33,8 +33,8 @@ export OMPI_MCA_btl_openib_if_include="hfi1_0:1"
 export LD_LIBRARY_PATH=/opt/pbs/lib:$LD_LIBRARY_PATH
 export OMP_NUM_THREADS=64
 
-[ _$MPIPROC == _ ] && MPIPROC=1
-[ _$NTHREAD == _ ] && NTHREAD=1
+[ _$MPIPROC == _ ] && MPIPROC=64
+[ _$NTHREAD == _ ] && NTHREAD=64
 [ _$BATCH == _ ] && BATCH=512
 [ _$SELECT == _ ] && SELECT=1
 [ _$KMP_BLOCKTIME == _ ] && KMP_BLOCKTIME=1
@@ -45,5 +45,6 @@ OUTDIR=perf_nurion_KNL_torch/KMPBLOCKTIME_${KMP_BLOCKTIME}__SELECT_${SELECT}__MP
 
 python train_torch.py -o $OUTDIR \
            --epoch 1 --batch $BATCH \
-           -t ../data/Val_dir -v ../data/Test_dir \
+           -t  ../data/Preprocessed_Val.h5 -v ../data/Preprocessed_Test.h5 \
+
 

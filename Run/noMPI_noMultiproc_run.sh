@@ -5,7 +5,7 @@
 #PBS -q normal
 #PBS -W sandbox=PRIVATE
 #PBS -A etc
-#PBS -l select=64:ncpus=68:mpiprocs=1:ompthreads=64
+#PBS -l select=1:ncpus=68:mpiprocs=1:ompthreads=64
 #PBS -l walltime=12:00:00
 
 source /apps/applications/miniconda3/etc/profile.d/conda.sh
@@ -36,14 +36,14 @@ export OMP_NUM_THREADS=64
 [ _$MPIPROC == _ ] && MPIPROC=64
 [ _$NTHREAD == _ ] && NTHREAD=64
 [ _$BATCH == _ ] && BATCH=512
-[ _$SELECT == _ ] && SELECT=64
+[ _$SELECT == _ ] && SELECT=1
 [ _$KMP_BLOCKTIME == _ ] && KMP_BLOCKTIME=1
 OUTDIR=perf_nurion_KNL_torch/KMPBLOCKTIME_${KMP_BLOCKTIME}__SELECT_${SELECT}__MPIPROC_${MPIPROC}__THREADS_${NTHREAD}__BATCH_${BATCH}
 
 [ _$PBS_O_WORKDIR != _ ] && cd $PBS_O_WORKDIR
 [ -d $OUTDIR ] || mkdir -p $OUTDIR
-mpirun -np $MPIPROC -env OMP_NUM_THREADS $NTHREAD \
-    python train_torch.py -o $OUTDIR \
-           --epoch 100 --batch $BATCH \
-           -t ../data/Preprocessed_Train.h5 -v ../data/Preprocessed_Val.h5 \
+
+python train_torch.py -o $OUTDIR \
+           --epoch 1 --batch $BATCH \
+           -t ../data/Val_dir -v ../data/Test_dir \
 
