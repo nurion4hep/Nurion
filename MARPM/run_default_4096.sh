@@ -2,7 +2,7 @@
 
 #PBS -V
 #PBS -N torch_hepcnn
-#PBS -q normal
+#PBS -q knl_all
 #PBS -W sandbox=PRIVATE
 #PBS -A etc
 #PBS -l select=4096:ncpus=68:mpiprocs=1:ompthreads=64

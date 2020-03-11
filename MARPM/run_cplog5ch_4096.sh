@@ -2,11 +2,11 @@
 
 #PBS -V
 #PBS -N torch_hepcnn
-#PBS -q normal
+#PBS -q knl_all
 #PBS -W sandbox=PRIVATE
 #PBS -A etc
 #PBS -l select=4096:ncpus=68:mpiprocs=1:ompthreads=64
-#PBS -l walltime=01:00:00
+#PBS -l walltime=12:00:00
 
 source /apps/applications/miniconda3/etc/profile.d/conda.sh
 #module load gcc/7.2.0 openmpi/3.1.0 craype-mic-knl tensorflow/1.12.0 hdf5-parallel/1.10.2
@@ -38,7 +38,7 @@ export OMP_NUM_THREADS=64
 [ _$BATCH == _ ] && BATCH=8
 [ _$SELECT == _ ] && SELECT=4096
 [ _$KMP_BLOCKTIME == _ ] && KMP_BLOCKTIME=1
-OUTDIR=perf_nurion_KNL_torch_4096/KMPBLOCKTIME_${KMP_BLOCKTIME}__SELECT_${SELECT}__MPIPROC_${MPIPROC}__THREADS_${NTHREAD}__BATCH_${BATCH}
+OUTDIR=perf_nurion_KNL_torch_cirpad_4096/KMPBLOCKTIME_${KMP_BLOCKTIME}__SELECT_${SELECT}__MPIPROC_${MPIPROC}__THREADS_${NTHREAD}__BATCH_${BATCH}
 
 [ _$PBS_O_WORKDIR != _ ] && cd $PBS_O_WORKDIR
 [ -d $OUTDIR ] || mkdir -p $OUTDIR
