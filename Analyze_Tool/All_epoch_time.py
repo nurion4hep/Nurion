@@ -41,12 +41,22 @@ print(data4096_df['time'][:50].shape[0])
 print("Elapsed time ####")
 for t in time:
 	print(t)
-
-'''
+import argparse
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('target', type=str,
+            help="python epoch.py acc(loss)")
+args = parser.parse_args()
+
+
+
+target = args.target
 x = np.arange(len(data512_df['time']))
+x_4096 = np.arange(len(data4096_df['time']))
 
 train_label_name = "Train-set "+target
 val_label_name   = "Validation-set "+target
@@ -55,20 +65,19 @@ val_title='epoch vs val_'+target
 filename=target+'.png'
 
 fig,axs = plt.subplots(2,1,figsize=(20,20))
-axs[0].plot(x+1,data64_df[target],'--bo',color='darkred',label=train_label_name)
-axs[0].plot(x+1,data128_df[target],'--bo',color='midnightblue',label=train_label_name)
-axs[0].plot(x+1,data256_df[target],'--bo',color='darkorange',label=train_label_name)
-axs[0].plot(x+1,data512_df[target],'--bo',color='salmon',label=train_label_name)
+axs[0].plot(x+1,data64_df[target],'--bo',color='r',label=train_label_name)
+#axs[0].plot(x+1,data128_df[target],'--bo',color='g',label=train_label_name)
+#axs[0].plot(x+1,data256_df[target],'--bo',color='b',label=train_label_name)
+#axs[0].plot(x+1,data512_df[target],'--bo',color='darkorange',label=train_label_name)
 axs[0].plot(x+1,data1024_df[target],'--bo',color='gold',label=train_label_name)
-axs[0].plot(x+1,data2048_df[target],'--bo',color='cyan',label=train_label_name)
-axs[0].plot(x4096+1,data4096_df[target],'--bo',color='green',label=train_label_name)
-
-#axs[0].legend(['64node','128node','256node','512node','1024node','2048node'],prop={'size' :30})
-axs[0].legend(['64node','128node','256node','512node','1024node','2048node','4096node'],prop={'size' :30})
-#axs[0].legend(['64node','128node','256node','512node','1024node'],prop={'size' :30})
+axs[0].plot(x+1,data2048_df[target],'--bo',color='purple',label=train_label_name)
+axs[0].plot(x_4096+1,data4096_df[target],'--bo',color='cyan',label=train_label_name)
+#axs[0].legend(['64node','128node','256node','512node','1024node','2048node','4096node'],prop={'size' :30})
+axs[0].legend(['64node','1024node','2048node','4096node'],prop={'size' :30})
 
 ############################## Log
-#axs[0].set_yscale('log')
+if(target == "loss"):
+	axs[0].set_yscale('log')
 
 axs[0].set_title(title,fontsize=50)
 axs[0].set_xlabel('epoch',fontsize=45)
@@ -76,16 +85,18 @@ axs[0].set_ylabel(target,fontsize=45)
 
 axs[1].get_xaxis().get_major_formatter().set_useOffset(False)
 axs[1].get_yaxis().get_major_formatter().set_useOffset(False)
-axs[1].plot(x+1,data64_df['val_'+target],'--bo',color='darkred',label=val_label_name)
-axs[1].plot(x+1,data128_df['val_'+target],'--bo',color='midnightblue',label=val_label_name)
-axs[1].plot(x+1,data256_df['val_'+target],'--bo',color='darkorange',label=val_label_name)
-axs[1].plot(x+1,data512_df['val_'+target],'--bo',color='salmon',label=val_label_name)
+axs[1].plot(x+1,data64_df['val_'+target],'--bo',color='r',label=val_label_name)
+#axs[1].plot(x+1,data128_df['val_'+target],'--bo',color='g',label=val_label_name)
+#axs[1].plot(x+1,data256_df['val_'+target],'--bo',color='b',label=val_label_name)
+#axs[1].plot(x+1,data512_df['val_'+target],'--bo',color='darkorange',label=val_label_name)
 axs[1].plot(x+1,data1024_df['val_'+target],'--bo',color='gold',label=val_label_name)
-axs[1].plot(x+1,data2048_df['val_'+target],'--bo',color='cyan',label=val_label_name)
-axs[1].plot(x4096+1,data4096_df['val_'+target],'--bo',color='green',label=val_label_name)
+axs[1].plot(x+1,data2048_df['val_'+target],'--bo',color='purple',label=val_label_name)
+axs[1].plot(x_4096+1,data4096_df['val_'+target],'--bo',color='cyan',label=val_label_name)
 
 ############################## Log
-#axs[1].set_yscale('log')
+
+if(target == "loss"):
+	axs[1].set_yscale('log')
 
 axs[1].set_title(val_title,fontsize=50)
 axs[1].set_xlabel('epoch',fontsize=45)
@@ -96,5 +107,4 @@ axs[1].grid()
 
 fig.tight_layout()
 plt.savefig(filename)
-
-'''
+plt.show()
