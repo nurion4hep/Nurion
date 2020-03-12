@@ -42,7 +42,6 @@ print("Elapsed time ####")
 for t in time:
 	print(t)
 
-
 '''
 import matplotlib
 matplotlib.use('Agg')
