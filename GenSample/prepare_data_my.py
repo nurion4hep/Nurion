@@ -67,24 +67,34 @@ def get_tree(files, branch_dict, tree_name='CollectionTree', max_events=None):
     return tree
 
 def process_events(tree):
-    """Applies physics selections and filtering"""
+	"""Applies physics selections and filtering"""
+	
+	# Object selection
+	vec_select_jets = np.vectorize(select_jets, otypes=[np.ndarray])
+	JetPt, JetEta = tree['JetPt'], tree['JetEta']
+	jetIdx = vec_select_jets(JetPt, JetEta)
+	
+	vec_select_fatjets = np.vectorize(select_fatjets, otypes=[np.ndarray])
+	fatJetPt = tree['fatJetPt']
+	fatJetM = tree['fatJetM']
+	fatjetIdx = vec_select_fatjets(fatJetPt)
+	
+	vec_select_HT = np.vectorize(select_HT, otypes=[np.ndarray])
+	HT = tree['HT']
+	HTIdx = vec_select_HT(HT) 
+	
+	## ------------------------- added by Jiwoong
+	HT_in=[]
+	for arr in HT:
+		list_ar = arr.tolist()
+		HT_in.append(list_ar)	
+	HT  = np.asarray(HT_in)	
+	#----------------------------##
 
-    # Object selection
-    vec_select_jets = np.vectorize(select_jets, otypes=[np.ndarray])
-    JetPt, JetEta = tree['JetPt'], tree['JetEta']
-    jetIdx = vec_select_jets(JetPt, JetEta)
-
-    vec_select_fatjets = np.vectorize(select_fatjets, otypes=[np.ndarray])
-    fatJetPt = tree['fatJetPt']
-    fatJetM = tree['fatJetM']
-    fatjetIdx = vec_select_fatjets(fatJetPt)
-
-    vec_select_HT = np.vectorize(select_HT, otypes=[np.ndarray])
-    HT = tree['HT']
-    HTIdx = vec_select_HT(HT)
-
-    JetPt, JetEta, JetPhi, JetM, JetBtag = filter_objects(
+	JetPt, JetEta, JetPhi, JetM, JetBtag = filter_objects(
         jetIdx, JetPt, JetEta, tree['JetPhi'], tree['JetM'], tree['JetBtag'])
+
+
 
     #fatJetM = filter_objects(fatjetIdx, tree['fatJetM'])
     #HT = filter_objects(HTIdx, tree['HT'])
@@ -96,14 +106,14 @@ def process_events(tree):
     #print('process step, jetPt size : ', len(JetPt))
 
     # Baseline event selection
-    skimIdx = np.vectorize(is_baseline_event)(JetPt)
-    JetPt, JetEta, JetPhi, JetM, JetBtag = filter_events(
+	skimIdx = np.vectorize(is_baseline_event)(JetPt)
+	JetPt, JetEta, JetPhi, JetM, JetBtag = filter_events(
         skimIdx, JetPt, JetEta, JetPhi, JetM, JetBtag)
-    num_baseline = np.sum(skimIdx)
-    print('Baseline selected events: %d / %d' % (num_baseline, tree.size))
+	num_baseline = np.sum(skimIdx)
+	print('Baseline selected events: %d / %d' % (num_baseline, tree.size))
 
     # Calculate quantities needed for SR selection
-    if num_baseline > 0:
+	if num_baseline > 0:
 		numJet = np.vectorize(lambda x: x.size)(JetPt)
 		numbJet = np.vectorize(numbjet)(JetBtag)
 		sumFatJetM = np.vectorize(sum_fatjet_mass)(fatJetM)
@@ -121,7 +131,7 @@ def process_events(tree):
 
 
 
-    else:
+	else:
 		#numFatJet = sumFatJetM = fatJetDEta12 = np.zeros(0)
 		numJet = numbJet = sumFatJetM = np.zeros(0)
 		passSRJ = passSR = np.zeros(0, dtype=np.bool)
@@ -129,15 +139,15 @@ def process_events(tree):
 		## -- added by jiwoong	
 		numJet = np.expand_dims(numJet,axis=1)	
 	
-
-    #print('SRJ check : ', passSRJ)
-    #print('bjet check : ', numbJet)
-
-    # Return results in a dict of arrays
-    return dict(tree=tree[skimIdx], JetPt=JetPt, JetEta=JetEta, JetPhi=JetPhi,
-                JetM=JetM, JetBtag=JetBtag, fatJetPt=fatJetPt, fatJetM=fatJetM,
-                numJet=numJet, numbJet=numbJet, sumFatJetM=sumFatJetM, passSRJ=passSRJ, passSR=passSR, scalarHT=HT)
-
+	
+	#print('SRJ check : ', passSRJ)
+	#print('bjet check : ', numbJet)
+	
+	# Return results in a dict of arrays
+	return dict(tree=tree[skimIdx], JetPt=JetPt, JetEta=JetEta, JetPhi=JetPhi,
+	            JetM=JetM, JetBtag=JetBtag, fatJetPt=fatJetPt, fatJetM=fatJetM,
+	            numJet=numJet, numbJet=numbJet, sumFatJetM=sumFatJetM, passSRJ=passSRJ, passSR=passSR, scalarHT=HT)
+	
 def filter_delphes_to_numpy(files, max_events=None):
     """Processes some files by converting to numpy and applying filtering"""
 
@@ -174,6 +184,7 @@ def filter_delphes_to_numpy(files, max_events=None):
         tree[key] = tree[key]*1e3
 
     # Apply physics
+
     results = process_events(tree)
     skimTree = results['tree']
 
@@ -317,17 +328,21 @@ def write_hdf5(filename, outputs):
 
 			#if key in ["hist", "histEM", "histtrack", "passSR4J", "passSR5J", "passSR", "weight"]:
 			#if key in ["hist", "histEM", "histtrack", "passSR", "weight"]:
-			if key in ["hist", "histEM", "histtrack", "passSRJ", "weight"]:
-			#if key in ["hist", "histEM", "histtrack", "passSRJ", "passSR", "numJet", "numbJet", "sumFatJetM", "scalarHT", "weight"]:
+			#if key in ["hist", "histEM", "histtrack", "passSRJ", "weight"]:
+		
+			## --Edited by Jiwoong
+			if key in ["hist", "histEM", "histtrack", "passSRJ", "passSR", "numJet", "numbJet", "sumFatJetM", "scalarHT", "weight"]:
 				g.create_dataset(key, data=data)
-        # Loop over events to write
-        num_entries = outputs.values()[0].shape[0]
-        for i in xrange(num_entries):
-            # Create a group for this event
-            g = hf.create_group('event_{}'.format(i))
-            # Add the data for this event
-            for key, data in outputs.iteritems():
-                g.create_dataset(key, data=data[i])
+        
+		## --Edited by Jiwoong
+	#	# Loop over events to write
+    #    num_entries = outputs.values()[0].shape[0]
+    #    for i in xrange(num_entries):
+    #        # Create a group for this event
+    #        g = hf.create_group('event_{}'.format(i))
+    #        # Add the data for this event
+    #        for key, data in outputs.iteritems():
+    #            g.create_dataset(key, data=data[i])
 
 def main():
     """Main execution function"""
