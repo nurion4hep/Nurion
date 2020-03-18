@@ -9,6 +9,7 @@ QCD1000 = 38.7232
 QCD1500 = 8.4115
 QCD2000 = 2.1424
 BKG = QCD700 + QCD1000 + QCD1500 + QCD2000
+print("## BKG weight sum {0}".format(BKG))
 
 ## Selected evts ( = # of DNN input )
 Signal = 311924
@@ -60,10 +61,10 @@ print(" ")
 ##### Show results: effective weight, events
 # ----------------------------------------------#
 
-w_QCD700  = QCD700  / BKG / sf *target
-w_QCD1000 = QCD1000 / BKG / sf *target
-w_QCD1500 = QCD1500 / BKG / sf *target
-w_QCD2000 = QCD2000 / BKG / sf *target
+w_QCD700  = w_QCD700   / sf *target
+w_QCD1000 = w_QCD1000  / sf *target
+w_QCD1500 = w_QCD1500  / sf *target
+w_QCD2000 = w_QCD2000  / sf *target
 
 
 print("### training effective  weight ###")
