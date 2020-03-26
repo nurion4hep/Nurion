@@ -88,7 +88,7 @@ def process_events(tree):
 	for arr in HT:
 		list_ar = arr.tolist()
 		HT_in.append(list_ar)	
-	HT  = np.asarray(HT_in)	
+	HT  = np.asarray(HT_in)
 	#----------------------------##
 
 	JetPt, JetEta, JetPhi, JetM, JetBtag = filter_objects(
@@ -123,13 +123,16 @@ def process_events(tree):
 		#passSRJ = np.vectorize(pass_srj)(numJet, JetBtag, sumFatJetM, HT)
 		passSRJ = np.vectorize(pass_srj)(numJet, numbJet, sumFatJetM, HT)
 		passSR = np.logical_or(passSRJ, 1)
+	
 		
 		## -- added by jiwoong	
-		numJet = np.expand_dims(numJet,axis=1)	
-		numbJet = np.expand_dims(numbJet,axis=1)		
-		sumFatJetM = np.expand_dims(sumFatJetM,axis=1)		
-
-
+		passSRJ = passSRJ[0]	
+		HT = np.squeeze(HT)
+		#numJet = np.expand_dims(numJet,axis=1)	
+		#numbJet = np.expand_dims(numbJet,axis=1)		
+		#sumFatJetM = np.expand_dims(sumFatJetM,axis=1)		
+		
+	
 
 	else:
 		#numFatJet = sumFatJetM = fatJetDEta12 = np.zeros(0)
@@ -137,7 +140,9 @@ def process_events(tree):
 		passSRJ = passSR = np.zeros(0, dtype=np.bool)
 		
 		## -- added by jiwoong	
-		numJet = np.expand_dims(numJet,axis=1)	
+		passSRJ = passSRJ[0]
+		HT = np.squeeze(HT)
+		#numJet = np.expand_dims(numJet,axis=1)	
 	
 	
 	#print('SRJ check : ', passSRJ)
@@ -203,7 +208,7 @@ def filter_delphes_to_numpy(files, max_events=None):
     num_event = results['tree'].shape[0]
     results['sample'] = np.full(num_event, samples[0], 'S30')
 
-    print('filter step, passSRJ size : ', len(results['passSRJ']))
+    #print('filter step, passSRJ size : ', len(results['passSRJ']))
 
     return results
 
@@ -312,24 +317,23 @@ def get_event_weights(xsec, mcw, sumw, lumi=36000):
     return xsec * mcw * lumi / sumw
 
 def write_hdf5(filename, outputs):
-    """
-    Write the output dictionary contents to an hdf5 file.
-    This will write one dataset group per event.
-    """
-    # Check that event count is consistent across all arrays
-    lengths = np.array([a.shape[0] for a in outputs.values()])
-    assert(np.all(lengths == lengths[0]))
+	"""
+	Write the output dictionary contents to an hdf5 file.
+	This will write one dataset group per event.
+	"""
+	# Check that event count is consistent across all arrays
+	for a,b in zip(outputs.keys(),outputs.values()):
+		print(a, b.shape)
 
-    # Open the output file
-    with h5py.File(filename, 'w') as hf:
-        # Create one big h5f group
-        g = hf.create_group('all_events')
-        for key, data in outputs.iteritems():
-
-			#if key in ["hist", "histEM", "histtrack", "passSR4J", "passSR5J", "passSR", "weight"]:
-			#if key in ["hist", "histEM", "histtrack", "passSR", "weight"]:
-			#if key in ["hist", "histEM", "histtrack", "passSRJ", "weight"]:
-		
+	lengths = np.array([a.shape[0] for a in outputs.values()])
+	assert(np.all(lengths == lengths[0]))
+	
+	# Open the output file
+	with h5py.File(filename, 'w') as hf:
+		# Create one big h5f group
+		g = hf.create_group('all_events')
+		for key, data in outputs.iteritems():
+		#	if key in ["hist", "histEM", "histtrack", "passSR4J", "passSR5J", "passSR", "weight"]:
 			## --Edited by Jiwoong
 			if key in ["hist", "histEM", "histtrack", "passSRJ", "passSR", "numJet", "numbJet", "sumFatJetM", "scalarHT", "weight"]:
 				g.create_dataset(key, data=data)
@@ -404,6 +408,7 @@ def main():
     #passSR5J = data['passSR5J']
     #passSR = data['passSR']
     passSRJ = data['passSRJ']
+	
 
     # Dictionary of output data
     outputs = {}
