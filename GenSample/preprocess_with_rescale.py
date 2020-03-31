@@ -45,18 +45,25 @@ modelName = args.model					#"3ch-CNN"
 ##### Normed weight factors
 
 # xsec , lumi
-Lumi = 35900
-xsecQCD700  = 1
-xsecQCD1000 = 1
-xsecQCD1500 = 1
-xsecQCD2000 = 1
+#RPV : 1.300e-2 pb
+#QCDBkg700to1000 : 6.362e+3 pb
+#QCDBkg1000to1500 : 1.094e+3 pb
+#QCDBkg1500to2000 : 9.916e+1 pb
+#QCDBkg2000toInf : 2.025e+1 pb
+
+Lumi = 63670
+xsecRPV     = 0.013
+xsecQCD700  = 6362
+xsecQCD1000 = 1094
+xsecQCD1500 = 99.16
+xsecQCD2000 = 20.25
 
 # Gen evts
+GenRPV     = 1
 GenQCD700  = 1
 GenQCD1000 = 1
 GenQCD1500 = 1
 GenQCD2000 = 1
-
 
 # weight = xsec * lumi / Gen evts
 QCD700  = xsecQCD700 * Lumi / GenQCD700
@@ -67,11 +74,11 @@ BKG_weight_sum  = QCD700 + QCD1000 + QCD1500 + QCD2000
 print("## BKG weight sum {0}".format(BKG_weight_sum))
 
 ## Selected evts ( = # of DNN input )
-Signal	   = 1
-QCDsel700  = 1
-QCDsel1000 = 1
-QCDsel1500 = 1
-QCDsel2000 = 1
+Signal	   = GenRPV     
+QCDsel700  = GenQCD700  
+QCDsel1000 = GenQCD1000 
+QCDsel1500 = GenQCD1500 
+QCDsel2000 = GenQCD2000 
 
 ## Renorm target ( signal selected evts )
 target = Signal
@@ -239,6 +246,7 @@ test = h5py.File(args.test_data)
 images_test  = np.expand_dims(test['all_events']['hist'][:nb_test_events], -1)
 labels_test  = test['all_events']['y'][:nb_test_events]
 weights_test = test['all_events']['weight'][:nb_test_events] 
+passSRJ =  test['all_events']['passSRJ'][:nb_test_events]
 
 # feature variables
 numJet_test     = test['all_events']['numJet'][:nb_test_events]
@@ -347,6 +355,7 @@ with h5py.File("HEPdata_NEW/fortest/Preprocessed_Test.h5","w") as f:
 	g.create_dataset("images_val", data=images_test,chunks=True,compression='gzip', compression_opts=9)
 	g.create_dataset("labels_val",data=labels_test,chunks=True)
 	g.create_dataset("weights_val",data=weights_test,chunks=True)
+	g.create_dataset("passSRJ",data=passSRJ,chunks=True)
 	
 	# Feature variables
 	g.create_dataset("numJet_val" ,data=numJet_test ,chunks=True)
