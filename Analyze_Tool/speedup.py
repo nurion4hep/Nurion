@@ -1,5 +1,5 @@
 import matplotlib
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,14 +10,15 @@ import numpy as np
 #node=[4,16,64,128,256,512,1024,2048]
 
 # 32K results
-time = [2223.3251526355743, 1451.9124898910522, 1137.9917290210724, 1140.3619375228882, 1166.649931192398,1014.0974791049957,1353.4979276657104]
-Single_time=2223.3251526355743
-node=[64,128,256,512,1024,2048,4096]
+time = [85292.47870731354,25507.26446390152,15490.927917003632,8999.204348564148,5223.29126906395,2680.1628584861755]
+Single_time=85292.47870731354
+node=[16,64,128,256,512,4096]
+#node=[16,64,128,256,512,1024,2048,4096]
 
 speedup =[]
 for i in time:
 	#speedup.append(4 * Single_time / i)
-	speedup.append(64 * Single_time / i)
+	speedup.append(16 * Single_time / i)
 print(speedup)
 
 
@@ -25,16 +26,16 @@ plt.rc('xtick',labelsize=15)
 plt.rc('ytick',labelsize=15)
 
 #x = np.linspace(0,2100,21000)
-x = np.linspace(60,2100,21000)
+x = np.linspace(16,4000,21000)
 y = x
 fig,axs = plt.subplots(1,figsize=(10,10))
-axs.plot(node,speedup,'--bo',color='royalblue',markersize=10)
-axs.plot(x,y,'--',color='black')
+axs.plot(node,speedup,'--*',color='midnightblue',markersize=10)
+axs.plot(x,y,'--',color='maroon',alpha=0.5)
 
 
-xmin=60
+xmin=10
 xmax=5000
-ymin=60
+ymin=10
 ymax=5000
 axs.set_yscale('log')
 axs.set_xscale('log')
@@ -44,20 +45,22 @@ axs.set_xlim([xmin,xmax])
 axs.set_ylim([ymin,ymax])
 
 #minor_ticks = np.arange(4, 5000, 10)
-minor_ticks = np.arange(64, 5000, 10)
+minor_ticks = np.arange(16, 5000, 10)
 
 #axs.set_xticks([4,5,6,7,10,20,30,100,200,1000,2000,3000,4000])
-axs.set_xticks([60,70,80,100,200,1000,2000,3000,4000])
+axs.set_xticks([16,60,100,200,1000,2000,4000])
 axs.set_xticks(minor_ticks, minor=True)
-axs.set_yticks([60,70,80,100,200,300,1000,2000,3000,4000])
+axs.set_yticks([16,60,100,200,300,1000,2000,4000])
 axs.set_yticks(minor_ticks, minor=True)
 
 
 axs.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 axs.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+plt.text(1000,1450, 'Ideal', fontsize=32,
+               rotation=45, rotation_mode='anchor',color='maroon',alpha=0.6)
 plt.title("speedup",fontsize=25)
 plt.minorticks_on()
 plt.grid(which='major', linestyle='-')
 
-plt.show()
+#plt.show()
 plt.savefig('speedup.png')
