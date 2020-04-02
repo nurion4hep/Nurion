@@ -2,35 +2,21 @@
 
 ##### Normed weight factors
 # ----------------------------------------------#
-Lumi = 63670
-xsecRPV     = 0.013
-xsecQCD700  = 6362
-xsecQCD1000 = 1094
-xsecQCD1500 = 99.16
-xsecQCD2000 = 20.25
-
-# Gen evts
-GenRPV     = 330599
-GenQCD700  = 129223
-GenQCD1000 = 103319
-GenQCD1500 = 127344
-GenQCD2000 = 125664
 
 # weight = xsec * lumi / Gen evts
-QCD700 = xsecQCD700 * Lumi / GenQCD700
-QCD1000 = xsecQCD1000 * Lumi / GenQCD1000
-QCD1500 = xsecQCD1500 *Lumi / GenQCD1500
-QCD2000 = xsecQCD2000 *Lumi / GenQCD2000
-
+QCD700  = 8.57213705
+QCD1000 = 38.7232
+QCD1500 = 8.4115
+QCD2000 = 2.1424
 BKG = QCD700 + QCD1000 + QCD1500 + QCD2000
 print("## BKG weight sum {0}".format(BKG))
 
 ## Selected evts ( = # of DNN input )
-Signal	   = GenRPV    
-QCDsel700  = GenQCD700 
-QCDsel1000 = GenQCD1000
-QCDsel1500 = GenQCD1500
-QCDsel2000 = GenQCD2000
+Signal = 311924
+QCDsel700  = 127081
+QCDsel1000 = 134774
+QCDsel1500 = 133963
+QCDsel2000 = 127669 
 
 ## Renorm target ( signal selected evts )
 target = Signal
