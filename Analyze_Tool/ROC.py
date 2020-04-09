@@ -13,7 +13,14 @@ y_true = f['all_events']['labels_val'][:]
 SF=124675.506754
 GenRPV     = 330599.
 bkg = 3867.83848132
-w = w * bkg * SF / GenRPV
+Lumi = 63670
+xsecRPV     = 0.013
+GenRPV     = 330599
+
+print(w)
+w[w!=1] = w[w!=1] * bkg * SF / GenRPV
+w[w==1] = Lumi * xsecRPV / GenRPV
+print(w)
 
 
 ## -- Calculate ACU
@@ -39,8 +46,7 @@ plt.legend(['physics selection]'],prop={'size' :20})
 plt.vlines(x_dot, ymin=0, ymax=1, linestyle='dashed', alpha=0.5, color='black')
 plt.xlabel('1 - Background rejection')
 plt.ylabel('Signal efficiency')
-plt.xlim(-0.01, 0.001)
+plt.xlim(0, 0.01)
 plt.ylim(0, 1.01)
 plt.legend()
 plt.savefig('ROC_all.png')
-
