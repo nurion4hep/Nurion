@@ -5,7 +5,7 @@ import h5py
 
 
 # -- Read file
-f = h5py.File('../../../NERSC_work/HEPdata_NEW/Merging_dir_forHT700bin/2020_sample/Merged_samples/Preprocessed_Test.h5')
+f = h5py.File('../../../NERSC_work/HEPdata_NEW/Merging_dir_forHT700bin/2020_sample/Merged_samples/Preprocessed_test.h5')
 w = f['all_events']['weights_val'][:]
 y_true = f['all_events']['labels_val'][:]
 
@@ -24,12 +24,12 @@ print(w)
 
 
 ## -- Calculate ACU
-predFile   = 'BATCH_512_EPOCH_50/prediction.csv'
+predFile   = 'Merged_BATCH_512_EPOCH_50/prediction.csv'
 df = pd.read_csv(predFile)
 tpr, fpr, thr = roc_curve(df['label'], df['prediction'], pos_label=0)
 auc = roc_auc_score(df['label'], df['prediction'])
 print("##### --auc: ",auc)
-## 0.9160425610250233
+## 0.997187612586373
 
 import matplotlib
 matplotlib.use('Agg')

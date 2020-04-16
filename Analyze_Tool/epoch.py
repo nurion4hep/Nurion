@@ -46,11 +46,12 @@ axs[0].minorticks_on()
 
 axs[1].plot(x_acc + 1,df['acc'],'--bo',color='darkorange',linewidth=4,markersize=10,label='Train-set')
 axs[1].plot(x_acc + 1,df['val_acc'],'--bo',color='royalblue',linewidth=4,markersize=10,label='Validation-set')
+axs[1].set_ylabel('accuracy',fontsize=45)
 
 #axs[1].set_yscale('log')
 axs[1].set_title('epoch vs acc',fontsize=50)
 axs[1].set_xlabel('epoch',fontsize=45)
-axs[1].set_ylabel('loss',fontsize=45)
+axs[1].set_ylabel('accuracy',fontsize=45)
 axs[1].legend(prop={'size':40})
 axs[1].grid(which='major', linestyle='-')
 axs[1].minorticks_on()
