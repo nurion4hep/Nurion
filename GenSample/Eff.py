@@ -1,14 +1,27 @@
 import numpy as np
 import h5py
 
-
-SF=124675.506754
-GenRPV     = 330599.
-bkg = 3867.83848132
 Lumi = 63670
 xsecRPV     = 0.013
-GenRPV     = 330599
+bkg = 3867.83848132
 
+
+## CMS cut
+GenRPV     = 330599.
+SF=124675.506754
+
+
+## --NERSC cut noPU
+SelRPV = 294554
+SF = 2560.86981306
+
+
+## --NERSC cut 32PU
+#SelRPV = 297263
+#SF = 2958.0861464
+
+#target = GenRPV # for CMS cut
+target = SelRPV  # for NERSC cut
 
 
 infile="Preprocessed_Test.h5"
@@ -24,11 +37,11 @@ print(" ")
 y_true = f['all_events']['labels_val'][:] 
 w = f['all_events']['weights_val'][:]
 
-# Re- calculate weight as Lumi * Xsec / Gen 
+# Re- calculate weight as Lumi * Xsec / target
 print(" ## --- Normalized weight --- ##")
 print(w)
-w[w!=1] = w[w!=1] * bkg * SF / GenRPV
-w[w==1] = Lumi * xsecRPV / GenRPV
+w[w!=1] = w[w!=1] * bkg * SF / target
+w[w==1] = Lumi * xsecRPV / target
 print(w)
 print(" ")
 y_true = y_true.flatten()
@@ -36,7 +49,9 @@ y_true = y_true.flatten()
 # -- Calculate Eff
 print(" ## --- N of expected events in SR --- ##")
 all_expected_evt = np.sum(w)
-SR_expected_evt  = np.sum(w[(f['all_events']['passSRJ'][:] == 1)])
+
+#SR_expected_evt  = np.sum(w[(f['all_events']['passSRJ'][:] == 1)])
+SR_expected_evt  = np.sum(w[(f['all_events']['passSR'][:] == 1)])
 
 
 eff = SR_expected_evt / all_expected_evt
