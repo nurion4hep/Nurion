@@ -18,10 +18,10 @@ xsecQCD2000 = 20.25
 #GenQCD2000 = 125664
 
 ## --Gen evts baseline selection
-GenRPV     = 330599
+GenRPV     = 147144
 GenQCD1000 = 15466225
-GenQCD1500 = 3199737
-GenQCD2000 = 1520178
+GenQCD1500 = 906297
+GenQCD2000 = 431071
 
 
 # weight = xsec * lumi / Gen evts
@@ -55,10 +55,10 @@ print("## BKG weight sum {0}".format(BKG))
 #QCDsel2000 = GenQCD2000
 
 ## ---CMS cut 32PU pre-selection baseline selection
-Signal	   = 294762
+Signal	   = 131194
 QCDsel1000 = 37091
-QCDsel1500 = 130952
-QCDsel2000 = 130802
+QCDsel1500 = 37091
+QCDsel2000 = 37091
 
 
 ## Renorm target ( signal selected evts )
@@ -103,9 +103,12 @@ print(" ")
 ##### Show results: effective weight, events
 # ----------------------------------------------#
 
+
+
 w_QCD1000 = w_QCD1000  / sf *target
 w_QCD1500 = w_QCD1500  / sf *target
 w_QCD2000 = w_QCD2000  / sf *target
+
 
 
 print("### training effective  weight ###")
