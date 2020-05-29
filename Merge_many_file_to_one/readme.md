@@ -13,5 +13,5 @@
 source run_all_merge.sh  
 ```  
 
-#### The source code read pre_X directories and output merged files on dest_X directories  
-#### Please empty the dest directories before start mergeing   
+- The source code read pre_X directories and output merged files on dest_X directories  
+- Please empty the dest directories before start mergeing   
