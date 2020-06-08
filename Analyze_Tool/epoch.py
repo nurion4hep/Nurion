@@ -17,7 +17,8 @@ args = parser.parse_args()
 
 
 # Path
-dir_   = args.path
+path_   = args.path
+dir_    = path_ +  '/history_0.csv' 
 
 # csv to dataframe
 df   = pd.read_csv(dir_)
@@ -57,4 +58,4 @@ axs[1].grid(which='major', linestyle='-')
 axs[1].minorticks_on()
 
 fig.tight_layout()
-plt.savefig('LOSS.png')
+plt.savefig(path_ + '/LOSS.png')
