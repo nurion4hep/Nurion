@@ -31,8 +31,8 @@ plt.rc('ytick',labelsize=15)
 x = np.linspace(4,5000,20000)
 y = x
 fig,axs = plt.subplots(1,figsize=(10,10))
-axs.plot(node,speedup,'--*',color='midnightblue',markersize=10,label="Current speedup(Batch=8 Fixed)")
-axs.plot(node_old,speedup_old,'--o',color='royalblue',markersize=10,alpha=0.6,label="Old speedup(Batch=128 fixed")
+axs.plot(node,speedup,'--*',color='midnightblue',markersize=10,label="2020 Summer(Batch=8 Fixed)")
+axs.plot(node_old,speedup_old,'--o',color='green',markersize=10,alpha=0.6,label="2109 Fall(Batch=128 fixed")
 axs.plot(x,y,'--',color='maroon',alpha=0.5)
 plt.legend(prop={'size':20})
 
