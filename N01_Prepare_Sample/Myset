@@ -7,4 +7,4 @@ source /cvmfs/cms.cern.ch/crab3/crab.sh
 #voms-proxy-init -voms cms -valid 190:00
 
 
-CMSSW_9_4_9_cand2
+cmsresl CMSSW_9_4_9_cand2
