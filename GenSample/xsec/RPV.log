@@ -1,0 +1,59 @@
+19-Aug-2020 16:04:32 KST  Initiating request to open file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/SMS-T1tbs_RPV_mGluino1400_TuneCP2_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/30000/F95ACB05-1B54-C84A-9F94-C1684CAFA706.root
+%MSG-w XrdAdaptor:  file_open 19-Aug-2020 16:04:37 KST pre-events
+Data is served from [2620 instead of original site T1_US_FNAL
+%MSG
+19-Aug-2020 16:04:40 KST  Successfully opened file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/SMS-T1tbs_RPV_mGluino1400_TuneCP2_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/30000/F95ACB05-1B54-C84A-9F94-C1684CAFA706.root
+Begin processing the 1st record. Run 1, Event 17263, LumiSection 45 on stream 0 at 19-Aug-2020 16:05:40.134 KST
+      0.018271      0.000119      0.000064             3
+      0.018686      0.000121      0.000064             2
+      0.012207      0.000079      0.000064             1
+ 
+19-Aug-2020 16:05:41 KST  Closed file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/SMS-T1tbs_RPV_mGluino1400_TuneCP2_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/30000/F95ACB05-1B54-C84A-9F94-C1684CAFA706.root
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Overall cross-section summary 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Process		xsec_before [pb]		passed	nposw	nnegw	tried	nposw	nnegw 	xsec_match [pb]			accepted [%]	 event_eff [%]
+0		1.249e-02 +/- 1.533e-05		3950	3950	0	5855	5855	0	8.423e-03 +/- 7.714e-05		67.5 +/- 0.6	67.5 +/- 0.6
+1		1.893e-02 +/- 2.324e-05		1477	1477	0	8870	8870	0	3.152e-03 +/- 7.498e-05		16.7 +/- 0.4	16.7 +/- 0.4
+2		1.873e-02 +/- 2.301e-05		563	563	0	8795	8795	0	1.199e-03 +/- 4.892e-05		6.4 +/- 0.3	6.4 +/- 0.3
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Total		5.015e-02 +/- 3.612e-05		5990	5990	0	23520	23520	0	1.277e-02 +/- 1.428e-04		25.5 +/- 0.3	25.5 +/- 0.3
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Before matching: total cross section = 5.015e-02 +- 3.612e-05 pb
+After matching: total cross section = 1.277e-02 +- 1.428e-04 pb
+Matching efficiency = 0.3 +/- 0.0   [TO BE USED IN MCM]
+Filter efficiency (taking into account weights)= (5983.49) / (5983.49) = 1.000e+00 +- 0.000e+00
+Filter efficiency (event-level)= (5990) / (5990) = 1.000e+00 +- 0.000e+00    [TO BE USED IN MCM]
+
+After filter: final cross section = 1.277e-02 +- 1.428e-04 pb
+After filter: final fraction of events with negative weights = 0.000e+00 +- 0.000e+00
+After filter: final equivalent lumi for 1M events (1/fb) = 7.829e+04 +- 6.852e+07
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GenXSecAnalyzer      -w GenXSecAnalyzer:                      17       17
+    2 XrdAdaptor           -w file_open                              1        1
+    3 fileAction           -s file_close                             1        1
+    4 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GenXSecAnalyzer      PostGlobalEndRun PostGlobalEndRun PostGlobalEndRun
+    2 XrdAdaptor           pre-events                        
+    3 fileAction           PostGlobalEndRun                  
+    4 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                18                  18
+System                  3                   3
+
+dropped waiting message count 0

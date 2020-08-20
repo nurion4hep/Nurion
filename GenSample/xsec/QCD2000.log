@@ -1,0 +1,84 @@
+19-Aug-2020 16:11:59 KST  Initiating request to open file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root
+[2020-08-19 16:12:47.213660 +0900][Error  ][AsyncSock         ] [cmsio4.rc.ufl.edu:1094 #0.0] Socket error while handshaking: [ERROR] Socket timeout
+[2020-08-19 16:12:47.213787 +0900][Error  ][PostMaster        ] [cmsio4.rc.ufl.edu:1094 #0] elapsed = 46, pConnectionWindow = 31 seconds.
+[2020-08-19 16:13:32.435988 +0900][Error  ][AsyncSock         ] [cmsio4.rc.ufl.edu:1094 #0.0] Socket error while handshaking: [ERROR] Socket timeout
+[2020-08-19 16:13:32.436078 +0900][Error  ][PostMaster        ] [cmsio4.rc.ufl.edu:1094 #0] elapsed = 45, pConnectionWindow = 31 seconds.
+[2020-08-19 16:14:18.662054 +0900][Error  ][AsyncSock         ] [cmsio4.rc.ufl.edu:1094 #0.0] Socket error while handshaking: [ERROR] Socket timeout
+[2020-08-19 16:14:18.664240 +0900][Error  ][PostMaster        ] [cmsio4.rc.ufl.edu:1094 #0] elapsed = 46, pConnectionWindow = 31 seconds.
+[2020-08-19 16:15:01.092124 +0900][Error  ][XRootD            ] [cmsio4.rc.ufl.edu:1094] Impossible to send message kXR_open (file: /store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root, mode: 0660, flags: kXR_open_read kXR_async kXR_retstat ). Trying to recover.
+[2020-08-19 16:15:01.092168 +0900][Error  ][XRootD            ] [cmsio4.rc.ufl.edu:1094] Unable to get the response to request kXR_open (file: /store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root, mode: 0660, flags: kXR_open_read kXR_async kXR_retstat )
+%MSG-w XrdAdaptorInternal:  file_open 19-Aug-2020 16:15:01 KST pre-events
+Failed to open file at URL root://cmsio4.rc.ufl.edu:1094//store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root.
+%MSG
+[2020-08-19 16:15:03.043947 +0900][Error  ][AsyncSock         ] [cmsio4.rc.ufl.edu:1094 #0.0] Socket error while handshaking: [ERROR] Socket timeout
+[2020-08-19 16:15:03.044044 +0900][Error  ][PostMaster        ] [cmsio4.rc.ufl.edu:1094 #0] elapsed = 45, pConnectionWindow = 31 seconds.
+[2020-08-19 16:15:03.044085 +0900][Error  ][PostMaster        ] [cmsio4.rc.ufl.edu:1094 #0] Unable to recover: [ERROR] Socket timeout.
+%MSG-w XrdAdaptor:  file_open 19-Aug-2020 16:15:04 KST pre-events
+Data is served from T2_US_Florida instead of original site T1_US_FNAL
+%MSG
+19-Aug-2020 16:15:06 KST  Successfully opened file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root
+%MSG-w XrdAdaptor:  (NoModuleName) 19-Aug-2020 16:15:14 KST pre-events
+Data is now served from T2_US_Florida, fnal.gov instead of previous T2_US_Florida
+%MSG
+Begin processing the 1st record. Run 1, Event 13670159, LumiSection 1510 on stream 0 at 19-Aug-2020 16:15:20.024 KST
+Begin processing the 10001st record. Run 1, Event 47832926, LumiSection 5281 on stream 0 at 19-Aug-2020 16:15:22.495 KST
+Begin processing the 20001st record. Run 1, Event 57357525, LumiSection 6332 on stream 0 at 19-Aug-2020 16:15:23.283 KST
+Begin processing the 30001st record. Run 1, Event 49016485, LumiSection 5411 on stream 0 at 19-Aug-2020 16:15:24.069 KST
+Begin processing the 40001st record. Run 1, Event 53094161, LumiSection 5861 on stream 0 at 19-Aug-2020 16:15:24.850 KST
+    188.555349      0.510933      0.026628             2
+     49.192767      0.133299      0.026628             1
+      3.550068      0.009620      0.026628             0
+ 
+19-Aug-2020 16:15:24 KST  Closed file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/910000/E607A2D5-5E66-8848-8057-62D223A84264.root
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Overall cross-section summary 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Process		xsec_before [pb]		passed	nposw	nnegw	tried	nposw	nnegw 	xsec_match [pb]			accepted [%]	 event_eff [%]
+0		3.542e+00 +/- 1.430e-03		220	220	0	7209	7162	47	1.095e-01 +/- 7.271e-03		3.1 +/- 0.2	3.1 +/- 0.2
+1		4.953e+01 +/- 1.999e-02		878	875	3	98768	97956	812	4.446e-01 +/- 1.504e-02		0.9 +/- 0.0	0.9 +/- 0.0
+2		1.877e+02 +/- 7.577e-02		38951	38751	200	374150	371034	3116	1.967e+01 +/- 9.565e-02		10.5 +/- 0.1	10.4 +/- 0.0
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Total		2.408e+02 +/- 7.838e-02		40049	39846	203	480127	476152	3975	2.022e+01 +/- 9.793e-02		8.4 +/- 0.0	8.3 +/- 0.0
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Before matching: total cross section = 2.408e+02 +- 7.838e-02 pb
+After matching: total cross section = 2.022e+01 +- 9.793e-02 pb
+Matching efficiency = 0.1 +/- 0.0   [TO BE USED IN MCM]
+Filter efficiency (taking into account weights)= (39628.4) / (39628.4) = 1.000e+00 +- 0.000e+00
+Filter efficiency (event-level)= (40049) / (40049) = 1.000e+00 +- 0.000e+00    [TO BE USED IN MCM]
+
+After filter: final cross section = 2.022e+01 +- 9.793e-02 pb
+After filter: final fraction of events with negative weights = 5.069e-03 +- 1.799e-06
+After filter: final equivalent lumi for 1M events (1/fb) = 4.846e+01 +- 1.138e+01
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GenXSecAnalyzer      -w GenXSecAnalyzer:                      17       17
+    2 XrdAdaptor           -w (NoModuleName)                         1        1
+    3 XrdAdaptor           -w file_open                              1        1
+    4 XrdAdaptorInternal   -w file_open                              1        1
+    5 fileAction           -s file_close                             1        1
+    6 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GenXSecAnalyzer      PostGlobalEndRun PostGlobalEndRun PostGlobalEndRun
+    2 XrdAdaptor           pre-events                        
+    3 XrdAdaptor           pre-events                        
+    4 XrdAdaptorInternal   pre-events                        
+    5 fileAction           PostGlobalEndRun                  
+    6 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                20                  20
+System                  3                   3
+
+dropped waiting message count 0

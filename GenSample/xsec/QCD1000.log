@@ -1,0 +1,60 @@
+19-Aug-2020 16:06:21 KST  Initiating request to open file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFE5DF41-7F79-6A43-8384-B808623CB69E.root
+%MSG-w XrdAdaptor:  file_open 19-Aug-2020 16:06:27 KST pre-events
+Data is served from [2620 instead of original site US-Regional-Nebraska
+%MSG
+19-Aug-2020 16:06:29 KST  Successfully opened file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFE5DF41-7F79-6A43-8384-B808623CB69E.root
+Begin processing the 1st record. Run 1, Event 165238823, LumiSection 12560 on stream 0 at 19-Aug-2020 16:06:37.560 KST
+Begin processing the 10001st record. Run 1, Event 182083557, LumiSection 13840 on stream 0 at 19-Aug-2020 16:06:38.503 KST
+   9909.580000     25.746000      4.216028             2
+   2948.310000      7.663540      4.216028             1
+    452.706000      1.177270      4.216028             0
+ 
+19-Aug-2020 16:06:38 KST  Closed file root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18MiniAOD/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/FFE5DF41-7F79-6A43-8384-B808623CB69E.root
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Overall cross-section summary 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Process		xsec_before [pb]		passed	nposw	nnegw	tried	nposw	nnegw 	xsec_match [pb]			accepted [%]	 event_eff [%]
+0		4.489e+02 +/- 2.986e-01		128	127	1	6541	6530	11	8.677e+00 +/- 7.713e-01		1.9 +/- 0.2	2.0 +/- 0.2
+1		2.976e+03 +/- 1.979e+00		536	536	0	43840	43727	113	3.657e+01 +/- 1.570e+00		1.2 +/- 0.1	1.2 +/- 0.1
+2		9.913e+03 +/- 6.593e+00		15551	15523	28	146974	146534	440	1.051e+03 +/- 8.032e+00		10.6 +/- 0.1	10.6 +/- 0.1
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Total		1.334e+04 +/- 6.890e+00		16215	16186	29	197355	196791	564	1.098e+03 +/- 8.312e+00		8.2 +/- 0.1	8.2 +/- 0.1
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Before matching: total cross section = 1.334e+04 +- 6.890e+00 pb
+After matching: total cross section = 1.098e+03 +- 8.312e+00 pb
+Matching efficiency = 0.1 +/- 0.0   [TO BE USED IN MCM]
+Filter efficiency (taking into account weights)= (16152.7) / (16152.7) = 1.000e+00 +- 0.000e+00
+Filter efficiency (event-level)= (16215) / (16215) = 1.000e+00 +- 0.000e+00    [TO BE USED IN MCM]
+
+After filter: final cross section = 1.098e+03 +- 8.312e+00 pb
+After filter: final fraction of events with negative weights = 1.788e-03 +- 5.934e-07
+After filter: final equivalent lumi for 1M events (1/fb) = 9.040e-01 +- 6.185e-03
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GenXSecAnalyzer      -w GenXSecAnalyzer:                      17       17
+    2 XrdAdaptor           -w file_open                              1        1
+    3 fileAction           -s file_close                             1        1
+    4 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GenXSecAnalyzer      PostGlobalEndRun PostGlobalEndRun PostGlobalEndRun
+    2 XrdAdaptor           pre-events                        
+    3 fileAction           PostGlobalEndRun                  
+    4 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                18                  18
+System                  3                   3
+
+dropped waiting message count 0

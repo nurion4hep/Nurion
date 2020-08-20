@@ -1,0 +1,9 @@
+export SCRAM_ARCH=slc6_amd64_gcc700
+export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+echo "$VO_CMS_SW_DIR $SCRAM_ARCH"
+source ${VO_CMS_SW_DIR}/cmsset_default.sh
+source /cvmfs/cms.cern.ch/crab3/crab.sh
+cd /hcp/data/data02/jwkim2/WORK/gitdir/Nurion/GenSample/xsec/CMSSW_10_2_7/src
+cmsenv
+cd -
+voms-proxy-init -voms cms -valid 190:00
