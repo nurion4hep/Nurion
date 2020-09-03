@@ -1,0 +1,28 @@
+NTHREADS= 64 CPU_COUNT= 68
+            procName  ... nEvents
+0           RPV_1400  ...  4096.0
+1           RPV_1400  ...  4096.0
+2           RPV_1400  ...  4096.0
+3           RPV_1400  ...  4096.0
+4           RPV_1400  ...  4096.0
+..               ...  ...     ...
+182  QCD_HT2000toInf  ...  4096.0
+183  QCD_HT2000toInf  ...  4096.0
+184  QCD_HT2000toInf  ...  4096.0
+185  QCD_HT2000toInf  ...  4096.0
+186  QCD_HT2000toInf  ...  4096.0
+
+[187 rows x 7 columns]
+--------------------------------------------------------------------------------
+Label=1 sumE=294762, sumW=0.0225554
+Label=0 sumE=463658, sumW=10.6383
+Label with maxSumE:0
+      maxWeight=7.8041e-05 minWeight=7.76612e-06 avgWeight=2.29442e-05
+--------------------------------------------------------------------------------
+Using LARS with base optimizer adam
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 0 PID 68886 RUNNING AT node3546
+=   KILLED BY SIGNAL: 6 (Aborted)
+===================================================================================
