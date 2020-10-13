@@ -30,10 +30,9 @@ import numpy as np
 #Single_time_B8_large= 8283.649612903595
 
 ## --without first step
-time_B8_large = [7517.727783441544 ,3897.3332884311676 ,2249.131636619568 ,1192.2444183826447 ,672.5603361129761 ,634.646270275116]
-Single_time_B8_large= 7517.727783441544
-node_B8_large=[128,256,512,1024,2048,4096]
-
+#time_B8_large = [7517.727783441544 ,3897.3332884311676 ,2249.131636619568 ,1192.2444183826447 ,672.5603361129761 ,634.646270275116]
+#Single_time_B8_large= 7517.727783441544
+#node_B8_large=[128,256,512,1024,2048,4096]
 
 
 # Effective Batch= 32K  64image 100epoch
@@ -47,6 +46,29 @@ node_B8_large=[128,256,512,1024,2048,4096]
 #Single_time_large= 2935.0999977588654
 #node_large=[128,256,512,1024,2048,4096]
 
+# ---------------------------------------------------------------
+
+# 32K 224x224 CP Large Kernel LR=2e-03
+#time = [166.53976332187653 ,101.92912660121918 ,70.34434948921204 ,56.16551579713821]
+#Single_time = time[0]
+#node = [128,256,512,1024]
+
+
+# 8batch 224x224 CP Large Kernel LR=2e-03
+time = [17308.84763431549 ,10376.94586956501 ,5391.960455553873 ,1655.170814064833 ,842.9652311944961 ,438.2046036052704 ,229.2290646457672 ,134.4215600824356]
+Single_time = time[0]
+node=[4,8,16,64,128,256,512,1024]
+
+
+# 32K 224x224 CP Large Kernel LR=2e-03
+#speedup = []
+#for i in time:
+#	speedup.append(128 * Single_time / i )
+
+# 8batch 224x224 CP Large Kernel LR=2e-03
+speedup = []
+for i in time:
+	speedup.append(4 * Single_time / i )
 
 
 
@@ -63,11 +85,9 @@ node_B8_large=[128,256,512,1024,2048,4096]
 #	speedup_B8.append(128 * Single_time_B8 / i)
 
 
-speedup_B8_large =[]
-for i in time_B8_large:
-	speedup_B8_large.append(128 * Single_time_B8_large / i)
-
-
+#speedup_B8_large =[]
+#for i in time_B8_large:
+#	speedup_B8_large.append(128 * Single_time_B8_large / i)
 
 
 #speedup_large =[]
@@ -81,17 +101,19 @@ for i in time_B8_large:
 
 
 
+
 plt.rc('xtick',labelsize=15)
 plt.rc('ytick',labelsize=15)
 
-#x = np.linspace(0,2100,21000)
-x = np.linspace(128,5000,20000)
+x = np.linspace(0,2100,21000)
+#x = np.linspace(128,5000,20000)
 y = x
 fig,axs = plt.subplots(1,figsize=(10,10))
 #axs.plot(node_B128,speedup_B128,'--*',color='green',markersize=10,alpha=0.6,label="2019 Fall(Batch=128 fixed)")
 
 #axs.plot(node_B8,speedup_B8,'--*',color='midnightblue',markersize=10,label="64x64(Batch=8 Fixed)")
-axs.plot(node_B8_large,speedup_B8_large,'--*',color='crimson',markersize=10,label="224x224(Batch=8 Fixed)")
+#axs.plot(node_B8_large,speedup_B8_large,'--*',color='crimson',markersize=10,label="224x224(Batch=8 Fixed)")
+axs.plot(node,speedup,'--*',color='crimson',markersize=10,label="speedup per epoch")
 
 
 #axs.plot(node_32K,speedup_32K,'--*',color='midnightblue',markersize=10,alpha=0.6,label="64x64 EffectiveBatch=32K")
@@ -99,14 +121,14 @@ axs.plot(node_B8_large,speedup_B8_large,'--*',color='crimson',markersize=10,labe
 axs.plot(x,y,'--',color='gray',alpha=0.5)
 plt.legend(prop={'size':15})
 
-xmin=128
-xmax=5000
-ymin=128
-ymax=1000
+xmin=1
+xmax=1200
+ymin=1
+ymax=1200
 axs.set_yscale('log')
 axs.set_xscale('log')
 axs.set_xlabel('Node',fontsize=20)
-axs.set_ylabel('Speedp-up',fontsize=20)
+axs.set_ylabel('Speedp-up per epoch',fontsize=20)
 axs.set_xlim([xmin,xmax])
 axs.set_ylim([ymin,ymax])
 
@@ -117,19 +139,22 @@ axs.set_ylim([ymin,ymax])
 #axs.set_yticks([4,16,60,100,200,300,1000,2000,4000])
 #axs.set_yticks(minor_ticks, minor=True)
 
-minor_ticks = np.arange(128, 5000, 10)
+#minor_ticks = np.arange(128, 5000, 10)
+minor_ticks = np.arange(4, 1200, 10)
 #axs.set_xticks([128,200,1000,2000,3000,4000])
-axs.set_xticks([128,200,400,600,800,1000,2000,4000])
+#axs.set_xticks([128,200,400,600,800,1000,2000,4000])
+axs.set_xticks([4,16,64,128,200,400,600,1200])
 axs.set_xticks(minor_ticks, minor=True)
-axs.set_yticks([128,200,400,600,800,1000,2000,4000])
+axs.set_yticks([4,16,64,128,200,400,600,1200])
 axs.set_yticks(minor_ticks, minor=True)
 
 axs.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 axs.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
-plt.text(1000,1450, 'Ideal', fontsize=32,
+#plt.text(1000,1450, 'Ideal', fontsize=32,
+plt.text(800,800, 'Ideal', fontsize=32,
                rotation=45, rotation_mode='anchor',color='maroon',alpha=0.6)
 plt.minorticks_on()
 plt.grid(which='major', linestyle='-')
 
 #plt.show()
-plt.savefig('speedup_8batch_without_first.png')
+plt.savefig('speedup_per_epoch.png')
