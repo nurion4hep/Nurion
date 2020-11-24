@@ -7,9 +7,9 @@ import glob
 print("## >> Grep All images \n")
 
 ### ---Parameters
-isQCD=False
-isNorm=True
-nEvent = 6
+isQCD=True
+isNorm=False
+nEvent = 3
 
 Lumi= 138 * 1000
 
@@ -95,9 +95,17 @@ images_HCAL  = np.concatenate(tuple(arr_HCAL),axis=0)
 images_ECAL  = np.concatenate(tuple(arr_ECAL),axis=0)
 images_TRACK = np.concatenate(tuple(arr_TRACK),axis=0)
 
+
+
+HCAL  = np.expand_dims(images_HCAL,-1)
+ECAL  = np.expand_dims(images_ECAL,-1)
+TRACK = np.expand_dims(images_TRACK,-1)
+images = np.concatenate([HCAL,ECAL,TRACK],axis=-1)
+
 print(images_HCAL.shape)
 print(images_ECAL.shape)
 print(images_TRACK.shape)
+print(images.shape)
 
 
 ### ---- M A K E   P L O T -------------------
@@ -130,7 +138,10 @@ HCAL_name  = outname + "_HCAL.png"
 ECAL_name  = outname + "_ECAL.png"
 TRACK_name = outname + "_TRACK.png"
 
-plot_image(images_HCAL.mean(axis=0),HCAL_name)
-plot_image(images_ECAL.mean(axis=0),ECAL_name)
-plot_image(images_TRACK.mean(axis=0),TRACK_name)
+
+#plot_image(images.mean(axis=0),'bkg.png')
+plot_image(images.max(axis=0),'bkg.png')
+#plot_image(images_HCAL.mean(axis=0),HCAL_name)
+#plot_image(images_ECAL.mean(axis=0),ECAL_name)
+#plot_image(images_TRACK.mean(axis=0),TRACK_name)
 #plot_image((weights.reshape(-1, 1, 1)*images_track_pt)[labels==1].mean(axis=0),"noPU_TrackPT_SIG.png")
