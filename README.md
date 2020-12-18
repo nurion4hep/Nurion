@@ -31,4 +31,6 @@ vi HEP-CNN/run/config.yml
 ```  
 
 6. Make distributed-running script  
-  
+```bash
+qsub run.sh
+``` 
