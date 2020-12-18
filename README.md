@@ -5,16 +5,15 @@
 git clone https://github.com/nurion4hep/HEP-CNN.git
 ```  
 
-2. Setup Conda Environment  
+2. Install PyTorch and related libs in Nurion  
+```bash
+./HEP-CNN/scripts/install_torch_nurion.sh
+```  
+3. Setup Conda Environment  
 ```bash
 source HEP-CNN/scripts/setup.sh
 ```  
  - h5py, pandas, matplotlib 등 python lib는 이 conda 환경 위에서 사용합시다   
-
-3. Install PyTorch and related libs in Nurion  
-```bash
-./HEP-CNN/scripts/install_torch_nurion.sh
-```  
 
 4. Copy data from Jiwoong's directory to HEP-CNN/data
  - 64x64 iamge
