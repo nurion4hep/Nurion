@@ -27,17 +27,29 @@ import numpy as np
 #node_large=[128,256,512,1024,2048,4096]
 
 
-## 32K 224x224 CP Large Kenel adam LR = 2e-03 Effective batch = 32K
+## 32K Strong-scale  224x224 CP Large Kenel adam LR = 2e-03 Effective batch = 32K
+#time_224=[166.53976332187653 ,101.92912660121918 ,70.34434948921204 ,56.16551579713821 ,58.91952322006225] # with 2048
+#time_224=[166.53976332187653 ,101.92912660121918 ,70.34434948921204 ,56.16551579713821]
+#node_224 = [128,256,512,1024]
+#text_224 = ['128nodes','256','512','1024']
+
+## 8batch Weak-scale 224x224 CP Large Kenel adam LR = 2e-03 
+time_224 = [17308.84763431549 ,10376.94586956501 ,5391.960455553873 ,1655.170814064833 ,843.2272506788665 ,442.7881581390027 ,231.06603512048721 ,135.06157711029053] 
+node_224 = [4,8,16,64,128,256,512,1024] 
+text_224 = ['4nodes','8','16','64','128','256','512','1024'] 
 
 
-time=[166.9000259399414 ,102.55070827960968 ,70.60527248859405 ,56.91568506240845]
-node = [128,256,512,1024]
-text = ['128nodes','256','512','1024']
+## 32K Strong-scale6 4x64 DefaultNorm0 adam LR=8e-03 Strong scale
+#time_64 = [52.64287549972534 ,34.76981614112854 ,26.27677938938141 ,23.179390041828157 ,26.423430993556977]
+#node_64 = [64,128,256,512,1024]
+#text_64 = ['64nodes','128','256','512','1024'] 
 
-## 32K 224x224 CP Large Kenel adam LR = 2e-03 Batch = 8K
-#time = [17308.84763431549 ,10376.94586956501 ,5391.960455553873 ,1655.170814064833 ,842.9652311944961 ,438.2046036052704 ,229.2290646457672 ,134.4215600824356] 
-#node = [4,8,16,64,128,256,512,1024] 
-#text = ['4nodes','8','16','64','128','256','512','1024'] 
+
+# 8batch Weak-scale 64x64 DefaultNorm0 LR=8e-03
+time_64 = [4754.470872561137 ,2544.376339018345 ,1367.4141018159928 ,397.29915613889693 ,287.7252774953842 ,125.58801151514054 ,86.47991998195648 ,52.25830784082413]
+node_64 = [4,8,16,64,128,256,512,1024] 
+text_64 = ['4nodes','8','16','64','128','256','512','1024'] 
+
 
 
 
@@ -47,22 +59,27 @@ plt.rc('xtick',labelsize=20)
 plt.rc('ytick',labelsize=20)
 
 fig,axs = plt.subplots(1,figsize=(12,7))
-#axs.plot(node,time,'--bo',color='royalblue',markersize=12,label='64x64')
-#axs.plot(node_large,time_large,'--bo',color='darkorange',markersize=12,label='224x224')
-axs.plot(node,time,'--bo',color='royalblue',markersize=12,label='Training time / epoch')
+axs.plot(node_64,time_64,'--bo',color='royalblue',markersize=12,label='64x64')
+axs.plot(node_224,time_224,'--bo',color='darkorange',markersize=12,label='224x224')
+#axs.plot(node,time,'--bo',color='royalblue',markersize=12,label='Training time / epoch')
 
 i=0
-for x,y in zip(node,time):
-	print(i, text[i])
-	plt.text(x-7,y-7,text[i],fontsize=20)
+for x,y in zip(node_224,time_224):
+	#plt.text(x-7,y-7,text[i],fontsize=20)
+	plt.text(x,y,text_224[i],fontsize=20)
 	i+=1
+#i=0
+#for x,y in zip(node_64,time_64):
+#	#plt.text(x-7,y-7,text[i],fontsize=20)
+#	plt.text(x,y,text_64[i],fontsize=20)
+#	i+=1
 
-print( '1024 nodes are',1600.95 / 56.91568506240845,'times faster than GPU' )
+#print( '1024 nodes are',1600.95 / 56.91568506240845,'times faster than GPU' )
 
-plt.text(800,130, 'GPU: 1660.95', fontsize=25,color='maroon',alpha=0.6)
-axs.set_title(title,fontsize=25)
-axs.set_xlabel('Node',fontsize=25)
-axs.set_ylabel('Time',fontsize=25)
+#plt.text(800,130, 'GPU: 1660.95', fontsize=25,color='maroon',alpha=0.6)
+#axs.set_title(title,fontsize=25)
+axs.set_xlabel('Number of nodes',fontsize=25)
+axs.set_ylabel('Time [sec]',fontsize=25)
 axs.set_xticks([0,120,250,500,1000,1200])
 axs.grid()
 plt.legend(prop={'size':15})
