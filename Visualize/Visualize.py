@@ -8,10 +8,12 @@ print("## >> Grep All images \n")
 
 ### ---Parameters
 isQCD=True
-isNorm=False
+isNorm=True
+is3ch=False
 nEvent = 3
 
-Lumi= 138 * 1000
+Lumi= 63.67 * 1000 
+#Lumi= 138. * 1000
 
 xsecRPV = 0.0252977
 genRPV = 330599
@@ -100,12 +102,17 @@ images_TRACK = np.concatenate(tuple(arr_TRACK),axis=0)
 HCAL  = np.expand_dims(images_HCAL,-1)
 ECAL  = np.expand_dims(images_ECAL,-1)
 TRACK = np.expand_dims(images_TRACK,-1)
-images = np.concatenate([HCAL,ECAL,TRACK],axis=-1)
+
+
+if is3ch:
+	images = np.concatenate([HCAL,ECAL,TRACK],axis=-1)
 
 print(images_HCAL.shape)
 print(images_ECAL.shape)
 print(images_TRACK.shape)
-print(images.shape)
+
+if is3ch:
+	print(images.shape)
 
 
 ### ---- M A K E   P L O T -------------------
@@ -114,6 +121,10 @@ print("## >> Make plots...")
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+import matplotlib.image as mpimg
+
+
+
 
 matplotlib.rcParams.update({'font.size': 20})
 
@@ -124,24 +135,41 @@ def plot_image(image,name="RPV.png"):
 	fig = plt.figure(figsize=(10,10))
 	im = plt.imshow(image,
 	interpolation='nearest',
+	cmap='binary',
+	#cmap='gray',
+#vmin=0,vmax=0.5
+vmin=0,vmax=0.5
 	)
+
+	#im = plt.imshow(cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
 	cbar = plt.colorbar(fraction=0.0455)
-	cbar.set_label(r'Energy (MeV)', y=0.83)
+	cbar.set_ticks([])
+	#cbar = plt.colorbar()
+	#cbar.set_label(r'Energy (MeV)', y=0.83)
 	cbar.ax.tick_params()   
-	plt.ylabel(r'$\eta$ Cell ID')
-	plt.xlabel(r'$\phi$ Cell ID')
+	plt.ylabel(r'$\eta$')
+	plt.xlabel(r'$\phi$')
 	plt.tight_layout()
 	plt.savefig(name)
 	return im
 
-HCAL_name  = outname + "_HCAL.png"
-ECAL_name  = outname + "_ECAL.png"
-TRACK_name = outname + "_TRACK.png"
+
+if isNorm:
+	HCAL_name  = outname + "_norm_HCAL.png"
+	ECAL_name  = outname + "_norm_ECAL.png"
+	TRACK_name = outname + "_norm_TRACK.png"
+else:
+	HCAL_name  = outname + "_HCAL.png"
+	ECAL_name  = outname + "_ECAL.png"
+	TRACK_name = outname + "_TRACK.png"
 
 
-#plot_image(images.mean(axis=0),'bkg.png')
-plot_image(images.max(axis=0),'bkg.png')
-#plot_image(images_HCAL.mean(axis=0),HCAL_name)
-#plot_image(images_ECAL.mean(axis=0),ECAL_name)
-#plot_image(images_TRACK.mean(axis=0),TRACK_name)
-#plot_image((weights.reshape(-1, 1, 1)*images_track_pt)[labels==1].mean(axis=0),"noPU_TrackPT_SIG.png")
+if is3ch:
+	#plot_image(images.mean(axis=0),'sig.png')
+	plot_image(images.mean(axis=0),'bkg.png')
+
+else:
+	plot_image(images_HCAL.mean(axis=0),HCAL_name)
+	plot_image(images_ECAL.mean(axis=0),ECAL_name)
+	plot_image(images_TRACK.mean(axis=0),TRACK_name)
+	#plot_image((weights.reshape(-1, 1, 1)*images_track_pt)[labels==1].mean(axis=0),"noPU_TrackPT_SIG.png")
