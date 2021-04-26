@@ -1,4 +1,4 @@
-## Application of scalable deeplearning in High energy physics usgin Nurion HPC ( Kisti )  
+## Application of scalable deep learning in High energy physics usgin Nurion HPC ( Kisti )  
 
  - Abstract in Korean Physics Society (http://www.kps.or.kr/conference/event/content/program/search_result_abstract.php?id=1692&tid=162)
  - Current Github organization: (https://github.com/nurion4hep)
