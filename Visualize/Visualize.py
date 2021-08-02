@@ -8,7 +8,7 @@ print("## >> Grep All images \n")
 
 ### ---Parameters
 isQCD=True
-isNorm=True
+isNorm=False
 is3ch=False
 nEvent = 3
 
@@ -78,6 +78,7 @@ if isQCD:
 		for f in tqdm(path):
 			data = h5py.File(f,'r')
 			weight_arr = np.ones(data['all_events']['HCAL'].shape) * weight_dict[weight_key]
+
 			arr_HCAL.append(data['all_events']['HCAL'][:]*weight_arr)
 			arr_ECAL.append(data['all_events']['ECAL'][:]*weight_arr)
 			arr_TRACK.append(data['all_events']['TRACK'][:]*weight_arr)
@@ -87,7 +88,8 @@ else:
 	for f in tqdm(Full_path):
 		data = h5py.File(f,'r')
 		weight_arr = np.ones(data['all_events']['HCAL'].shape) * weightRPV
-
+		
+		
 		arr_HCAL.append(data['all_events']['HCAL'][:]*weight_arr)
 		arr_ECAL.append(data['all_events']['ECAL'][:]*weight_arr)
 		arr_TRACK.append(data['all_events']['TRACK'][:]*weight_arr)
@@ -123,9 +125,6 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import matplotlib.image as mpimg
 
-
-
-
 matplotlib.rcParams.update({'font.size': 20})
 
 
@@ -134,21 +133,21 @@ def plot_image(image,name="RPV.png"):
 
 	fig = plt.figure(figsize=(10,10))
 	im = plt.imshow(image,
-	interpolation='nearest',
+	#interpolation='nearest',
 	cmap='binary',
 	#cmap='gray',
-#vmin=0,vmax=0.5
-vmin=0,vmax=0.5
+	#vmin=0,vmax=1 # for QCD
+#vmin=0,vmax=0.5 # for signal
 	)
 
 	#im = plt.imshow(cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
-	cbar = plt.colorbar(fraction=0.0455)
-	cbar.set_ticks([])
+	#cbar = plt.colorbar(fraction=0.0455)
+	#cbar.set_ticks([])
 	#cbar = plt.colorbar()
 	#cbar.set_label(r'Energy (MeV)', y=0.83)
-	cbar.ax.tick_params()   
-	plt.ylabel(r'$\eta$')
-	plt.xlabel(r'$\phi$')
+	#cbar.ax.tick_params()   
+	plt.ylabel(r'$\eta$',fontsize=30)
+	plt.xlabel(r'$\phi$',fontsize=30)
 	plt.tight_layout()
 	plt.savefig(name)
 	return im
@@ -170,6 +169,6 @@ if is3ch:
 
 else:
 	plot_image(images_HCAL.mean(axis=0),HCAL_name)
-	plot_image(images_ECAL.mean(axis=0),ECAL_name)
+	plot_image(images_ECAL.meanaxis=0),ECAL_name)
 	plot_image(images_TRACK.mean(axis=0),TRACK_name)
 	#plot_image((weights.reshape(-1, 1, 1)*images_track_pt)[labels==1].mean(axis=0),"noPU_TrackPT_SIG.png")
