@@ -22,7 +22,6 @@ def read_data(file_list):
 	#f = open('file_list')
 	#file_list = [line.rstrip() for line in f]
 
-	
 
 	# using input args
 	flist=[]
@@ -45,6 +44,8 @@ def Loop(flist,brancher):
 	for arrays in uproot.iterate(flist,branches): #  for Uproot4
 
 		print("processing array: ",len(arrays))
+
+		## 1 -- Conver branch as array
 		Jet = ak.zip({
 			"PT"		: arrays["Jet.PT"],
 			"Eta"	   : arrays["Jet.Eta"],
@@ -61,38 +62,50 @@ def Loop(flist,brancher):
 
 		HT = arrays["ScalarHT.HT"]
 
-		# Jet definition
+		## 2 -- Selections
+		
+		# Jet selection
 		Jet_sel_mask = (abs(Jet.Eta)  <=2.4)  & (Jet.PT > 30)
 		Jet			 = Jet[Jet_sel_mask]
-		Jet_evt_sel_mask = ak.num(Jet) > 0
+		Jet_evt_sel_mask = ak.num(Jet) >= 4
 
 		Jet		  = Jet[Jet_evt_sel_mask]
 		HT			 = HT[Jet_evt_sel_mask]
 		FatJet	   = FatJet[Jet_evt_sel_mask]
 
-		# FatJet definition
-		FatJet_sel_mask = FatJet.PT > 30
-		FatJet		  = FatJet[FatJet_sel_mask]
-		FatJet_evt_sel_mask = ak.num(FatJet) > 0
-
-		FatJet = FatJet[FatJet_evt_sel_mask]
-		Jet = Jet[FatJet_evt_sel_mask]
-		HT = HT[FatJet_evt_sel_mask]
-
-		
-		
-
-		# Baseline selection
-		njet_mask = ak.num(Jet) >= 4
+		# HT selection
 		HT_mask   = ak.flatten(HT >= 1500)
-		btag_mask = ak.sum(Jet.BTag,axis=1) >= 1
-		FatJetmass_mask =  ak.sum(FatJet.Mass,axis=-1) >= 500
-				
-		Baseline_mask = njet_mask & HT_mask & btag_mask & FatJetmass_mask
+
+		Jet		  = Jet[HT_mask]
+		HT			 = HT[HT_mask]
+		FatJet	   = FatJet[HT_mask]
+
+		# B-jet selection
+		Bjet = Jet.BTag > 0.5
+		Btag_mask = ak.sum(Bjet,axis=-1) >= 1
 		
-		Jet_sel	= Jet[Baseline_mask]
-		HT_sel	 = HT[Baseline_mask]
-		FatJet_sel = FatJet[Baseline_mask]
+		Jet		  = Jet[Btag_mask]
+		HT			 = HT[Btag_mask]
+		FatJet	   = FatJet[Btag_mask]
+		
+		# Fat-jet selection
+		Fat_jet_sel_mask = FatJet.PT > 30
+		Fat_jet_evt_mask = ak.num(FatJet[Fat_jet_sel_mask]) > 0
+		
+		Jet		  = Jet[Fat_jet_evt_mask]
+		HT			 = HT[Fat_jet_evt_mask]
+		FatJet	   = FatJet[Fat_jet_evt_mask]
+		
+
+		# Fat-jet mass selection
+		Fat_jet_mass_mask = ak.sum(FatJet.Mass,axis=-1) >= 500
+	
+		Jet_sel		  = Jet[Fat_jet_mass_mask]
+		HT_sel			 = HT[Fat_jet_mass_mask]
+		FatJet_sel	   = FatJet[Fat_jet_mass_mask]
+
+
+		## 3 -- Prepare histogram 
 
 		# All Jets
 		#h_jet_eta = ak.to_numpy(ak.flatten(Jet_sel.Eta))
@@ -102,13 +115,35 @@ def Loop(flist,brancher):
 		h_jet_eta = ak.to_numpy((Jet_sel[:,0].Eta))
 		h_jet_phi = ak.to_numpy((Jet_sel[:,0].Phi))
 
+		# Others
+		h_Njet  = ak.to_numpy(ak.num(Jet_sel))
+		h_HT    = ak.to_numpy(ak.flatten(HT_sel))
+		h_Nbjet = ak.to_numpy(ak.sum(Jet_sel.BTag > 0.5,axis=-1))
+		h_Mfjet = ak.to_numpy(ak.sum(FatJet_sel.Mass,axis=-1))
+
+		# test print out
+		#print(h_Njet,len(h_Njet))
+		#print(h_HT,len(h_HT))
+		#print(h_Nbjet,len(h_Nbjet))
+		#print(h_Mfjet,len(h_Mfjet))
+
 
 		if len(histo) == 0:
 			histo['Jet_eta'] = h_jet_eta
 			histo['Jet_phi'] = h_jet_phi
+			histo['Njet']    = h_Njet
+			histo['Nbjet']   = h_Nbjet
+			histo['HT']      = h_HT
+			histo['MassFatJet'] = h_Mfjet
 		else:
 			 histo['Jet_eta'] = np.concatenate((histo['Jet_eta'],h_jet_eta),axis=0)
 			 histo['Jet_phi'] = np.concatenate((histo['Jet_phi'],h_jet_phi),axis=0)
+			 histo['Njet'] = np.concatenate((histo['Njet'],h_Njet),axis=0)
+			 histo['Nbjet'] = np.concatenate((histo['Nbjet'],h_Nbjet),axis=0)
+			 histo['HT'] = np.concatenate((histo['HT'],h_HT),axis=0)
+			 histo['MassFatJet'] = np.concatenate((histo['MassFatJet'],h_Mfjet),axis=0)
+
+
 			 print("length: ",len(histo['Jet_eta'] ))
 	return histo
 

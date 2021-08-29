@@ -3,7 +3,7 @@ import subprocess
 
 
 ##### -----Please add input hist list here
-file_list  = glob.glob("*.root")
+file_list  = glob.glob("RPV/Gluino1400GeV/0000/*.root")
 
 
 def calc_Nout(maxfile,nfile):
@@ -14,7 +14,7 @@ def calc_Nout(maxfile,nfile):
 
 
 ##### -----Please add batch size here 
-maxfile=2 # Max number of input files for each run 
+maxfile=10 # Max number of input files for each run 
 
 
 
