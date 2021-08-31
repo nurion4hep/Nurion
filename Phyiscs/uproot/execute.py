@@ -3,7 +3,10 @@ import subprocess
 
 
 ##### -----Please add input hist list here
-file_list  = glob.glob("RPV/Gluino1400GeV/0000/*.root")
+#file_list  = glob.glob("RPV/Gluino1400GeV/0000/*.root")
+#file_list  = glob.glob("QCDBkg/HT1000to1500/*/*.root")
+#file_list  = glob.glob("QCDBkg/HT1500to2000/*/*.root")
+file_list  = glob.glob("QCDBkg/HT2000toInf/*/*.root")
 
 
 def calc_Nout(maxfile,nfile):
@@ -12,10 +15,8 @@ def calc_Nout(maxfile,nfile):
 	return(nout)
 
 
-
 ##### -----Please add batch size here 
 maxfile=10 # Max number of input files for each run 
-
 
 
 
@@ -28,10 +29,10 @@ for i in range(nout):
 	infiles = (' '.join(file_list[start:end]))
 
 
-	fn_out = "RPV_" + str(i) + ".npy"
+	#fn_out = "RPV_" + str(i) + ".npy"
 	#fn_out = "QCD1000_" + str(i) + ".npy"
 	#fn_out = "QCD1500_" + str(i) + ".npy"
-	#fn_out = "QCD2000_" + str(i) + ".npy"
+	fn_out = "QCD2000_" + str(i) + ".npy"
 
 
 	print("############################## SET: ",fn_out)

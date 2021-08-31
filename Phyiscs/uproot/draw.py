@@ -7,29 +7,27 @@ import glob
 def Stack_hist(sample_list,xsec,gen,histname):
 	n_sel=0
 	hsumw=0
-	bins = 50
+	bins = np.linspace(500,3000,50)
 	for f in sample_list:
-		
 		hist_dict = np.load(f,allow_pickle=True)[()]
 		hist_arr  = hist_dict[histname]
 		n_sel+=  len(hist_arr)
 		weight_arr = np.ones(len(hist_arr)) *Lumi * xsec / gen
 		hcontents, hbin, _ = plt.hist(hist_arr,bins=bins,weights=weight_arr)
 		hsumw += hcontents
-	
 	return hbin,hsumw,n_sel,histname
 
 def read_data():
-	RPV_path= "npys/RPV/RPV_*.npy"
+	RPV_path= "npys_210831/RPV/RPV_*.npy"
 	RPV_list = glob.glob(RPV_path)
 	
-	QCD1000_path = "npys/QCD1000/QCD1000*.npy"
+	QCD1000_path = "npys_210831/QCD1000/QCD1000*.npy"
 	QCD1000_list = glob.glob(QCD1000_path)
 	
-	QCD1500_path = "npys/QCD1500/QCD1500*.npy"
+	QCD1500_path = "npys_210831/QCD1500/QCD1500*.npy"
 	QCD1500_list = glob.glob(QCD1500_path)
 	
-	QCD2000_path = "npys/QCD2000/QCD2000*.npy"
+	QCD2000_path = "npys_210831/QCD2000/QCD2000*.npy"
 	QCD2000_list = glob.glob(QCD2000_path)
 
 	return RPV_list, QCD1000_list, QCD1500_list, QCD2000_list
@@ -50,7 +48,12 @@ if __name__ == "__main__":
 	Lumi = 63.67 * 1000
 	
 	#histname = 'Jet_eta'
-	histname = 'Jet_phi'
+	#histname = 'Jet_phi'
+	#histname = 'Njet'
+	#histname = 'Nbjet'
+	#histname = 'HT'
+	histname = 'MassFatJet'
+
 
 	#2 --File I/O
 	RPV_list, QCD1000_list, QCD1500_list, QCD2000_list = read_data()	
@@ -74,12 +77,13 @@ if __name__ == "__main__":
 
 	hep.histplot(RPV_hsumw, hbin,color='royalblue',histtype='step',label='RPV SUSY')
 	hep.histplot(QCD_hsumw, hbin,color='crimson',histtype='step',label='QCD multi-jet')
-
-	plt.xlabel('Leading Jet eta')
+	plt.xlabel('Mass sum of fatjets')
 	plt.ylabel('Number of events')
 	plt.ylim([1,1000000])
+#	plt.xlim([1500,8000])
 	plt.yscale('log')
 	plt.legend()
+	plt.grid(alpha=0.6)
 
 	outname = histname + '.png'
 	plt.savefig(outname)

@@ -60,7 +60,7 @@ def Loop(flist,brancher):
 		})
 
 
-		HT = arrays["ScalarHT.HT"]
+		#HT = arrays["ScalarHT.HT"]
 
 		## 2 -- Selections
 		
@@ -70,11 +70,12 @@ def Loop(flist,brancher):
 		Jet_evt_sel_mask = ak.num(Jet) >= 4
 
 		Jet		  = Jet[Jet_evt_sel_mask]
-		HT			 = HT[Jet_evt_sel_mask]
+		#HT			 = HT[Jet_evt_sel_mask]
 		FatJet	   = FatJet[Jet_evt_sel_mask]
 
 		# HT selection
-		HT_mask   = ak.flatten(HT >= 1500)
+		HT = ak.sum(Jet.PT,axis=-1)
+		HT_mask   = (HT >= 1500)
 
 		Jet		  = Jet[HT_mask]
 		HT			 = HT[HT_mask]
@@ -117,7 +118,8 @@ def Loop(flist,brancher):
 
 		# Others
 		h_Njet  = ak.to_numpy(ak.num(Jet_sel))
-		h_HT    = ak.to_numpy(ak.flatten(HT_sel))
+		#h_HT    = ak.to_numpy(ak.flatten(HT_sel))
+		h_HT    = ak.to_numpy(HT_sel)
 		h_Nbjet = ak.to_numpy(ak.sum(Jet_sel.BTag > 0.5,axis=-1))
 		h_Mfjet = ak.to_numpy(ak.sum(FatJet_sel.Mass,axis=-1))
 
