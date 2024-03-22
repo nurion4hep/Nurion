@@ -1,0 +1,5 @@
+RPV_weight = 827.71
+QCD700_weight = 4.05068540e+08
+QCD1000_weight = 69654980.
+QCD_1500_weight = 6313517.2
+QCD_2000_weight = 1289317.5

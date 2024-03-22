@@ -2,33 +2,45 @@ import h5py
 import numpy as np
 import pandas as pd
 
-path="/xrootd/store/user/hnam/sample4Nurion/Sample_0814/raw/"
+#for 2016 data
+#path="/xrootd/store/user/hnam/sample4Nurion/Sample_0814/raw/"
+
+#for more 2018 data
+#path="/xrootd/store/user/hnam/sample4Nurion/2018DAS/Delphes/h5/"
+
+# original path
+path_="/xrootd_user/hknam/xrootd/sample4Nurion/2018DAS/Delphes/h5/"
+
+# more evts
+path="/xrootd_user/hknam/xrootd/sample4Nurion/2018DAS/Delphes/h5_v2/"
+
 
 data_700HT  = "QCD700to1000.h5"
 data_1000HT = "QCD1000to1500.h5"
 data_1500HT = "QCD1500to2000.h5"
 data_2000HT = "QCD2000toInf.h5"
 
-
-BKG700HT_data = h5py.File(path+data_700HT)
+BKG700HT_data = h5py.File(path_+data_700HT)
 BKG1000HT_data = h5py.File(path+data_1000HT)
 BKG1500HT_data = h5py.File(path+data_1500HT)
 BKG2000HT_data = h5py.File(path+data_2000HT)
-Sig_data=h5py.File(path+"RPV1400.h5")
+Sig_data=h5py.File(path_+"RPV1400.h5")
 
+
+N_sig=-1
 
 
 print(list(Sig_data['all_events'].keys()))
 #['hist', 'histEM', 'histtrack', 'passSR', 'passSR4J', 'passSR5J', 'weight']
 
 
-sig_hist			= Sig_data['all_events']['hist'][:]
-sig_histEM			= Sig_data['all_events']['histEM'][:]
-sig_histtrack		= Sig_data['all_events']['histtrack'][:]
-sig_passSR			= Sig_data['all_events']['passSR'][:]
-sig_passSR4J		= Sig_data['all_events']['passSR4J'][:]
-sig_passSR5J		= Sig_data['all_events']['passSR5J'][:]
-sig_weight			= Sig_data['all_events']['weight'][:]
+sig_hist			= Sig_data['all_events']['hist'][:N_sig]
+sig_histEM			= Sig_data['all_events']['histEM'][:N_sig]
+sig_histtrack		= Sig_data['all_events']['histtrack'][:N_sig]
+sig_passSR			= Sig_data['all_events']['passSR'][:N_sig]
+sig_passSR4J		= Sig_data['all_events']['passSR4J'][:N_sig]
+sig_passSR5J		= Sig_data['all_events']['passSR5J'][:N_sig]
+sig_weight			= Sig_data['all_events']['weight'][:N_sig]
 print(" ")
 print("Signal number: ",sig_hist.shape[0])
 print("Signal weight: ",sig_weight[0])
@@ -84,7 +96,10 @@ print(" ")
 print(" ### Num Summary ### ")
 print("Signal: ", N_signal)
 print("BKG: ", N_bkg)
- 
+
+''' 
+
+
 
 print(" ")
 print("### Branch summary ###")
@@ -186,32 +201,33 @@ print(train_Y.shape)
 print(val_Y.shape)
 
 
-#print("### Converting HDF5 files...")
-#
-#with h5py.File("train.h5","w") as f:
-#	g=f.create_group("all_events")
-#	g.create_dataset("hist",      data=train_hist,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("histEM",    data=train_histEM,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("histtrack", data=train_histtrack,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR",	  data=train_passSR,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR4J",  data=train_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR45",  data=train_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("weight",   data=train_weights,chunks=True)
-#	g.create_dataset("y",   data=train_Y,chunks=True)
-#
-#with h5py.File("val.h5","w") as f:
-#	g=f.create_group("all_events")
-#	g.create_dataset("hist",      data=val_hist,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("histEM",    data=val_histEM,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("histtrack", data=val_histtrack,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR",	  data=val_passSR,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR4J",  data=val_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("passSR5J",  data=val_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
-#	g.create_dataset("weight",   data=val_weights,chunks=True)
-#	g.create_dataset("y",   data=val_Y,chunks=True)
-#
-#
-#
-#print("### Successfully svaed!")
+print("### Converting HDF5 files...")
 
+with h5py.File("train.h5","w") as f:
+	g=f.create_group("all_events")
+	g.create_dataset("hist",      data=train_hist,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("histEM",    data=train_histEM,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("histtrack", data=train_histtrack,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR",	  data=train_passSR,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR4J",  data=train_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR45",  data=train_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("weight",   data=train_weights,chunks=True)
+	g.create_dataset("y",   data=train_Y,chunks=True)
+
+with h5py.File("val.h5","w") as f:
+	g=f.create_group("all_events")
+	g.create_dataset("hist",      data=val_hist,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("histEM",    data=val_histEM,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("histtrack", data=val_histtrack,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR",	  data=val_passSR,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR4J",  data=val_passSR4J,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("passSR5J",  data=val_passSR5J,chunks=True,compression='gzip', compression_opts=9) 
+	g.create_dataset("weight",   data=val_weights,chunks=True)
+	g.create_dataset("y",   data=val_Y,chunks=True)
+
+
+
+print("### Successfully saved!")
+
+'''
 
